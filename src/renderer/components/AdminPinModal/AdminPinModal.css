@@ -1,0 +1,63 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.pin-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 350px;
+  width: 100%;
+  text-align: center;
+}
+
+.subtext {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+input {
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #0078ff;
+  color: white;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #ccc;
+  color: black;
+}
+
+.pin-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.pin-message.error {
+  color: red;
+}
+
+.pin-message.success {
+  color: green;
+}
