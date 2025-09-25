@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './Information.css';
 import { Logo, VideoBackground } from '../../components';
 import { useAssetPath } from '../../hooks';
 import { useLocation, useNavigate } from 'react-router-dom';

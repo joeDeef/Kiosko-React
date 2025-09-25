@@ -1,5 +1,5 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
-import { Loading, Home, Information } from "./pages";
+import { Loading, Home, Information, AdminPanel } from "./pages";
 
 function App() {
     return (
@@ -8,6 +8,7 @@ function App() {
                 <Route path="/" element={<Loading />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/information" element={<Information />} />
+                <Route path="/admin" element={<AdminPanel />} />
             </Routes>
         </HashRouter>
     );

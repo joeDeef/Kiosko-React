@@ -1,5 +1,5 @@
 import React from 'react';
-import { GlassButton } from '../index';
+import { GlassButton } from '../../components';
 import './ButtonGrid.css';
 import { useAssetPath } from '../../hooks';
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Loading.css';
 import { useNavigate } from 'react-router-dom';
 import { AdminPinModal } from '../../components';
 import { useAssetPath } from '../../hooks';

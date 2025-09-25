@@ -1,0 +1,77 @@
+/* ActionsDropdown - inspirado en admin.css */
+.actions-dropdown {
+	position: relative;
+	display: inline-block;
+}
+.dropdown-btn {
+	background: var(--bg-surface);
+	color: var(--text-primary);
+	border: 1.5px solid var(--gray-300);
+	border-radius: var(--radius-lg);
+	padding: var(--space-3) var(--space-6);
+	font-size: var(--font-size-base);
+	font-weight: 600;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	transition: border 0.2s, box-shadow 0.2s;
+	box-shadow: var(--shadow-xs);
+}
+.dropdown-btn.active, .dropdown-btn:focus {
+	border-color: var(--secondary-color);
+	box-shadow: var(--shadow-md);
+}
+.dropdown-icon {
+	margin-left: var(--space-2);
+	width: 1.2em;
+	height: 1.2em;
+}
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 110%;
+	min-width: 180px;
+	background: var(--bg-surface);
+	border: 1.5px solid var(--gray-200);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-lg);
+	z-index: 100;
+	padding: var(--space-2) 0;
+	margin-top: var(--space-2);
+}
+.dropdown-menu.show {
+	display: block;
+}
+.dropdown-item {
+	width: 100%;
+	background: none;
+	border: none;
+	color: var(--text-primary);
+	font-size: var(--font-size-base);
+	padding: var(--space-3) var(--space-6);
+	text-align: left;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	transition: background 0.2s, color 0.2s;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+	background: var(--bg-tertiary);
+	color: var(--secondary-color);
+}
+.dropdown-item.danger {
+	color: var(--accent-color);
+}
+.dropdown-item:disabled {
+	color: var(--text-muted);
+	cursor: not-allowed;
+	background: none;
+}
+.icon {
+	display: inline-flex;
+	align-items: center;
+	margin-right: var(--space-2);
+}

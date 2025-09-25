@@ -1,0 +1,105 @@
+/* Tamaños y variantes adicionales para máxima fidelidad visual */
+.btn-primary.btn-large, .btn-secondary.btn-large, .btn-danger.btn-large {
+	font-size: var(--font-size-xl);
+	padding: var(--space-4) var(--space-8);
+}
+.btn-primary.btn-small, .btn-secondary.btn-small, .btn-danger.btn-small {
+	font-size: var(--font-size-sm);
+	padding: var(--space-2) var(--space-3);
+}
+.btn:active {
+	transform: scale(0.97);
+	box-shadow: var(--shadow-xs);
+}
+.btn:focus {
+	outline: 2px solid var(--secondary-color);
+	outline-offset: 2px;
+}
+.btn .btn-icon svg {
+	margin-right: var(--space-2);
+	vertical-align: middle;
+}
+.btn[disabled], .btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+@media (max-width: 768px) {
+	.btn-primary.btn-large, .btn-secondary.btn-large, .btn-danger.btn-large {
+		font-size: var(--font-size-base);
+		padding: var(--space-3) var(--space-5);
+	}
+}
+/* ActionButton - inspirado en admin.css */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	border-radius: var(--radius-lg);
+	font-size: var(--font-size-base);
+	font-weight: 600;
+	padding: var(--space-3) var(--space-6);
+	border: none;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+	box-shadow: var(--shadow-xs);
+	outline: none;
+}
+.btn-primary {
+	background: var(--gradient-primary);
+	color: var(--text-white);
+	border: 1.5px solid var(--secondary-color);
+}
+.btn-primary:hover, .btn-primary:focus {
+	background: var(--secondary-color);
+	color: var(--text-white);
+	box-shadow: var(--shadow-md);
+}
+.btn-secondary {
+	background: var(--bg-surface);
+	color: var(--secondary-color);
+	border: 1.5px solid var(--secondary-color);
+}
+.btn-secondary:hover, .btn-secondary:focus {
+	background: var(--secondary-light);
+	color: var(--text-white);
+	box-shadow: var(--shadow-md);
+}
+.btn-danger {
+	background: var(--accent-color);
+	color: var(--text-white);
+	border: 1.5px solid var(--accent-color);
+}
+.btn-danger:hover, .btn-danger:focus {
+	background: #b91c1c;
+	color: var(--text-white);
+	box-shadow: var(--shadow-md);
+}
+.btn-small {
+	font-size: 0.95rem;
+	padding: var(--space-2) var(--space-3);
+}
+.btn-medium {
+	font-size: var(--font-size-base);
+	padding: var(--space-3) var(--space-5);
+}
+.btn-large {
+	font-size: var(--font-size-lg);
+	padding: var(--space-4) var(--space-7);
+}
+.btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+.btn-icon {
+	display: flex;
+	align-items: center;
+	margin-right: var(--space-2);
+}
+.animate-spin {
+	animation: spin 1s linear infinite;
+}
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}

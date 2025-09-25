@@ -1,0 +1,73 @@
+/* PinSection - inspirado en admin.css */
+.pin-section-container {
+	background: var(--bg-surface);
+	border-radius: var(--radius-xl);
+	padding: var(--space-6);
+	margin-top: var(--space-6);
+	box-shadow: var(--shadow-md);
+	border: 1px solid var(--gray-200);
+	position: relative;
+	max-width: 480px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.pin-header h2 {
+	font-size: var(--font-size-xl);
+	font-weight: 700;
+	color: var(--text-primary);
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	margin-bottom: var(--space-2);
+}
+.pin-description {
+	color: var(--text-muted);
+	font-size: var(--font-size-base);
+	margin-bottom: var(--space-4);
+}
+.pin-form-container {
+	margin-bottom: var(--space-4);
+}
+.form-group {
+	margin-bottom: var(--space-4);
+}
+.form-group label {
+	font-weight: 600;
+	color: var(--text-secondary);
+	margin-bottom: var(--space-2);
+	display: block;
+}
+.pin-input {
+	width: 100%;
+	padding: var(--space-3);
+	border-radius: var(--radius-md);
+	border: 1.5px solid var(--gray-300);
+	font-size: var(--font-size-lg);
+	letter-spacing: 0.2em;
+	text-align: center;
+	margin-top: var(--space-2);
+	margin-bottom: var(--space-2);
+	background: var(--bg-tertiary);
+	color: var(--text-primary);
+	transition: border 0.2s;
+}
+.pin-input:focus {
+	border-color: var(--secondary-color);
+	outline: none;
+}
+.format-info.success {
+	color: var(--success-color);
+	font-weight: 600;
+	margin-bottom: var(--space-2);
+}
+.format-info.error {
+	color: var(--accent-color);
+	font-weight: 600;
+	margin-bottom: var(--space-2);
+}
+.tab-actions {
+	display: flex;
+	gap: var(--space-3);
+	justify-content: flex-end;
+	margin-top: var(--space-4);
+}

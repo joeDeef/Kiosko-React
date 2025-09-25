@@ -1,8 +1,11 @@
 import React from 'react';
-import { VideoBackground, ButtonGrid, Logo } from '../../components';
+import './Home.css';
+import { VideoBackground, Logo } from '../../components';
+import { ButtonGrid } from '../../sections';
 import { useAssetPath, useAssets } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../shared/types';
+
 import './Home.css';
 
 const Home: React.FC = () => {
