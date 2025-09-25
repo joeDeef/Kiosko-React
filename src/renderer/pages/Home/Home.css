@@ -1,0 +1,134 @@
+/* Reseteo y configuración base */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  background: #000;
+}
+
+/* Contenedor principal de Home */
+.home {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estados de carga */
+.home-loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  color: white;
+  gap: 20px;
+}
+
+.home-loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.home-loading p {
+  font-size: clamp(14px, 2vw, 18px);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Estados de error */
+.home-error {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(45deg, #1a1a2e, #16213e);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.home-error h2 {
+  font-size: clamp(18px, 3vw, 24px);
+  margin-bottom: 15px;
+  color: #ff6b6b;
+}
+
+.home-error p {
+  font-size: clamp(14px, 2vw, 16px);
+  margin-bottom: 20px;
+  opacity: 0.8;
+  max-width: 400px;
+}
+
+.home-error__retry {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+  padding: 12px 24px;
+  font-size: clamp(14px, 2vw, 16px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.home-error__retry:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.home-error__retry:active {
+  transform: translateY(0);
+}
+
+/* Media queries para estados especiales */
+@media (max-width: 480px) {
+  .home-loading,
+  .home-error {
+    padding: 15px;
+  }
+  
+  .home-loading__spinner {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (orientation: landscape) and (max-height: 600px) {
+  .home-loading,
+  .home-error {
+    gap: 10px;
+  }
+  
+  .home-error h2 {
+    margin-bottom: 10px;
+  }
+  
+  .home-error p {
+    margin-bottom: 15px;
+  }
+}

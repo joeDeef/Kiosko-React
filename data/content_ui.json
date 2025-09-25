@@ -12,37 +12,54 @@
       "order": 1,
       "icon": "carreras.png",
       "title": "Carreras",
-      "videos": []
+      "videos": [
+        "video.mp4",
+        "tik.mp4"
+      ]
     },
     {
       "order": 2,
       "icon": "admisiones.png",
       "title": "Admisiones",
-      "videos": []
+      "videos": [
+        "video.mp4",
+        "tik.mp4"
+      ]
     },
     {
       "order": 3,
       "icon": "costos.png",
       "title": "Costos y Becas",
-      "videos": []
+      "videos": [
+        "video.mp4",
+        "tik.mp4"
+      ]
     },
     {
       "order": 4,
       "icon": "vida_universitaria.png",
       "title": "Vida Universitaria",
-      "videos": []
+      "videos": [
+        "video.mp4",
+        "tik.mp4"
+      ]
     },
     {
       "order": 5,
       "icon": "instalaciones.png",
       "title": "Instalaciones",
-      "videos": []
+      "videos": [
+        "video.mp4",
+        "tik.mp4"
+      ]
     },
     {
       "order": 6,
       "icon": "quienes_somos.png",
       "title": "¿Quiénes somos?",
-      "videos": []
+      "videos": [
+        "video.mp4"
+      ]
     }
   ]
 }

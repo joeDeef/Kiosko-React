@@ -1,0 +1,149 @@
+/* Botones principales - TAMAÑO AUMENTADO */
+.glass-button {
+  /* Tamaño responsive basado en viewport - MÁS GRANDES */
+  width: clamp(100px, 16vmin, 200px);
+  height: clamp(100px, 16vmin, 200px);
+  
+  /* Glassmorphism effect mejorado */
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  /* Layout flex para centrado perfecto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  /* Estilos visuales */
+  color: white;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  
+  /* Transiciones suaves */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Sombras para profundidad */
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+  /* Animación de entrada */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-button--pressed {
+  transform: translateY(-2px) scale(0.95) !important;
+  transition: all 0.1s ease !important;
+}
+
+/* Contenedor del icono */
+.glass-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 60%;
+  margin-bottom: clamp(5px, 1vh, 10px);
+  position: relative;
+}
+
+/* Imágenes de iconos responsive */
+.glass-button__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  transition: filter 0.3s ease;
+}
+
+.glass-button:hover .glass-button__icon img {
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+}
+
+/* Títulos responsive */
+.glass-button__title {
+  font-size: clamp(12px, 2.5vmin, 20px);
+  font-weight: 600;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 0.5px;
+  max-width: 100%;
+  word-wrap: break-word;
+  hyphens: auto;
+  text-align: center;
+  padding: 0 5px;
+}
+
+/* Animación de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media queries para ajustes específicos */
+
+/* Pantallas muy pequeñas (móviles pequeños) */
+@media (max-width: 480px) {
+  .glass-button {
+    width: clamp(80px, 18vmin, 120px);
+    height: clamp(80px, 18vmin, 120px);
+  }
+}
+
+/* Pantallas medianas (tablets) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .glass-button {
+    width: clamp(120px, 15vmin, 180px);
+    height: clamp(120px, 15vmin, 180px);
+  }
+}
+
+/* Pantallas grandes (desktop) */
+@media (min-width: 1025px) {
+  .glass-button {
+    width: clamp(140px, 12vmin, 220px);
+    height: clamp(140px, 12vmin, 220px);
+  }
+}
+
+/* Pantallas ultra anchas */
+@media (min-width: 1920px) {
+  .glass-button {
+    width: clamp(160px, 10vmin, 240px);
+    height: clamp(160px, 10vmin, 240px);
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (orientation: landscape) and (max-height: 600px) {
+  .glass-button {
+    width: clamp(60px, 12vmin, 100px);
+    height: clamp(60px, 12vmin, 100px);
+  }
+  
+  .glass-button__title {
+    font-size: clamp(10px, 2vmin, 14px);
+  }
+}

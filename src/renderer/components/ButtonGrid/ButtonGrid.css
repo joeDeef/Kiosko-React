@@ -1,0 +1,88 @@
+/* Contenedor principal de botones - responsive */
+.button-grid {
+  position: absolute;
+  bottom: clamp(30px, 8vh, 80px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 4vh, 50px);
+  z-index: 5;
+  width: 90vw;
+  max-width: 1200px;
+}
+
+/* Filas de botones */
+.button-grid__row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 4vw, 60px);
+  flex-wrap: wrap;
+}
+
+/* Mensaje de error */
+.button-grid__error {
+  color: white;
+  text-align: center;
+  font-size: clamp(14px, 2vw, 20px);
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.button-grid__error p {
+  margin: 10px 0;
+}
+
+.button-grid__error-subtitle {
+  font-size: smaller;
+  opacity: 0.7;
+}
+
+/* Media queries para ajustes específicos */
+
+/* Pantallas muy pequeñas (móviles pequeños) */
+@media (max-width: 480px) {
+  .button-grid {
+    bottom: clamp(20px, 5vh, 40px);
+    gap: clamp(15px, 3vh, 25px);
+  }
+  
+  .button-grid__row {
+    gap: clamp(15px, 3vw, 30px);
+  }
+}
+
+/* Pantallas medianas (tablets) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .button-grid {
+    gap: clamp(25px, 5vh, 40px);
+  }
+  
+  .button-grid__row {
+    gap: clamp(25px, 5vw, 50px);
+  }
+}
+
+/* Pantallas grandes (desktop) */
+@media (min-width: 1025px) {
+  .button-grid {
+    gap: clamp(30px, 5vh, 60px);
+  }
+  
+  .button-grid__row {
+    gap: clamp(40px, 5vw, 80px);
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (orientation: landscape) and (max-height: 600px) {
+  .button-grid {
+    bottom: clamp(15px, 4vh, 30px);
+    gap: clamp(10px, 2vh, 20px);
+  }
+}

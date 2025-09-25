@@ -1,0 +1,68 @@
+/* Clase base del logo */
+.logo {
+  position: absolute;
+  top: clamp(15px, 2.5vh, 50px);
+  width: clamp(100px, 12vw, 200px);
+  height: auto;
+  z-index: 10;
+  filter: drop-shadow(0 clamp(1px, 0.2vh, 4px) clamp(4px, 0.5vh, 12px) rgba(0,0,0,0.3));
+  transition: transform 0.3s ease, top 0.3s ease, width 0.3s ease;
+}
+
+/* Posición izquierda */
+.logo--left {
+  left: clamp(15px, 2vw, 40px);
+  right: auto;
+}
+
+/* Posición centro */
+.logo--center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Posición derecha */
+.logo--right {
+  right: clamp(15px, 2vw, 40px);
+  left: auto;
+}
+
+/* Estado de error */
+.logo--error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.logo__error-text {
+  color: white;
+  font-size: clamp(12px, 1.5vw, 16px);
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Media queries específicos para logo */
+@media (min-width: 1920px) {
+  .logo {
+    width: clamp(80px, 6vw, 140px);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .logo {
+    width: clamp(40px, 6vw, 70px);
+    top: clamp(10px, 1.5vh, 20px);
+  }
+  
+  .logo--left {
+    left: clamp(10px, 1.5vw, 20px);
+  }
+  
+  .logo--right {
+    right: clamp(10px, 1.5vw, 20px);
+  }
+}

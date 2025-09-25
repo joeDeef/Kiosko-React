@@ -1,0 +1,102 @@
+/* Reseteo y configuración base */
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    background: #000;
+}
+
+/* Video de fondo responsive*/
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.logo {
+    position: absolute;
+    top: clamp(15px, 2.5vh, 50px);
+    width: clamp(100px, 12vw, 200px);
+    height: auto;
+    z-index: 10;
+    filter: drop-shadow(0 clamp(1px, 0.2vh, 4px) clamp(4px, 0.5vh, 12px) rgba(0,0,0,0.3));
+    transition: transform 0.3s ease, top 0.3s ease, width 0.3s ease;
+}
+
+/* Posición izquierda */
+.logo-left {
+    left: clamp(15px, 2vw, 40px);
+    right: auto;
+}
+
+/* Posición centro */
+.logo-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Posición derecha */
+.logo-right {
+    right: clamp(15px, 2vw, 40px);
+    left: auto;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: white;
+    text-align: center;
+    font-size: clamp(14px, 2vw, 20px);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.error-message p {
+    margin: 10px 0;
+}
+
+.error-message .subtitle {
+    font-size: smaller;
+    opacity: 0.7;
+}
+
+/* Pantallas ultra anchas */
+@media (min-width: 1920px) {
+    .logo {
+        width: clamp(80px, 6vw, 140px);
+    }
+}
+
+/* Orientación landscape en móviles */
+@media (orientation: landscape) and (max-height: 600px) {
+    .logo {
+        width: clamp(40px, 6vw, 70px);
+        top: clamp(10px, 1.5vh, 20px);
+        left: clamp(10px, 1.5vw, 20px);
+    }
+}
