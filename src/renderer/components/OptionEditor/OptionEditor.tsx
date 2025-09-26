@@ -1,18 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './OptionEditor.css';
 import { useAssetPath } from '../../hooks';
+import { ButtonData } from '../../../shared/types';
+import './OptionEditor.css';
 
-interface Button {
-  title: string;
-  icon: string;
-  temporalImage?: string;
-  order: number;
-  videos?: string[];
-}
 
 interface OptionEditorProps {
-  button: Button;
-  onSave: (button: Button) => void;
+  button: ButtonData;
+  onSave: (button: ButtonData) => void;
   onCancel: () => void;
   onOpenVideoEditor?: () => void;
 }
@@ -23,7 +17,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
   onCancel,
   onOpenVideoEditor
 }) => {
-  const [editedButton, setEditedButton] = useState<Button>({ ...button });
+  const [editedButton, setEditedButton] = useState<ButtonData>({ ...button });
   const [previewImage, setPreviewImage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { img } = useAssetPath();

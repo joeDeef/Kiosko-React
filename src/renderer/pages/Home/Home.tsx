@@ -1,8 +1,7 @@
 import React from 'react';
-import './Home.css';
 import { VideoBackground, Logo } from '../../components';
 import { ButtonGrid } from '../../sections';
-import { useAssetPath, useAssets } from '../../hooks';
+import { useAssetPath, useAssets, useData } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { ButtonData } from '../../../shared/types';
 
@@ -10,14 +9,15 @@ import './Home.css';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const { appData, loading, error } = useAssets();
+  const { loading, error } = useAssets();
   const { img, video } = useAssetPath();
+  const { data } = useData();
 
   const handleButtonClick = (button: ButtonData) => {
     navigate('/information', {
       state: {
         videos: button.videos,
-        logo: appData.logo,
+        logo: data.logo,
       },
     });
   };
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     );
   }
 
-  if (error || !appData) {
+  if (error || !data) {
     return (
       <div className="home-error">
         <h2>Error al cargar la aplicación</h2>
@@ -47,9 +47,9 @@ const Home: React.FC = () => {
   return (
     <div className="home">
       {/* Video de fondo */}
-      {appData.welcomeVideos?.length > 0 && (
+      {data.welcomeVideos?.length > 0 && (
         <VideoBackground
-          videos={appData.welcomeVideos}
+          videos={data.welcomeVideos}
           getAssetPath={(type, filename) => video(filename)}
           muted={false}
           loop={true} // Home: loop infinito
@@ -57,17 +57,17 @@ const Home: React.FC = () => {
       )}
 
       {/* Logo */}
-      {appData.logo?.image && (
+      {data.logo?.image && (
         <Logo
-          src={img(appData.logo.image)}
-          position={appData.logo.position}
+          src={img(data.logo.image)}
+          position={data.logo.position}
           alt="Logo de la aplicación"
         />
       )}
 
       {/* Grid de botones */}
       <ButtonGrid
-        buttons={appData.buttons || []}
+        buttons={data.buttons || []}
         onButtonClick={handleButtonClick}
       />
     </div>

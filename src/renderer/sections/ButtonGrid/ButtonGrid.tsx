@@ -1,18 +1,13 @@
 import React from 'react';
 import { GlassButton } from '../../components';
-import './ButtonGrid.css';
 import { useAssetPath } from '../../hooks';
+import { ButtonData } from '../../../shared/types';
+import './ButtonGrid.css';
 
-interface Button {
-  title: string;
-  icon: string;
-  videos?: string[];
-  order?: number;
-}
 
 interface ButtonGridProps {
-  buttons: Button[];
-  onButtonClick: (button: Button, index: number) => void;
+  buttons: ButtonData[];
+  onButtonClick: (button: ButtonData, index: number) => void;
   className?: string;
 }
 
@@ -75,11 +70,11 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({
 
   // Crear filas de botones
   const distribution = calculateButtonDistribution(processedButtons.length);
-  const rows: Button[][] = [];
+  const rows: ButtonData[][] = [];
   let buttonIndex = 0;
 
   for (const buttonsInRow of distribution) {
-    const row: Button[] = [];
+    const row: ButtonData[] = [];
     for (let i = 0; i < buttonsInRow && buttonIndex < processedButtons.length; i++) {
       row.push(processedButtons[buttonIndex]);
       buttonIndex++;
@@ -87,7 +82,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({
     rows.push(row);
   }
 
-  const handleButtonClick = (button: Button, globalIndex: number) => {
+  const handleButtonClick = (button: ButtonData, globalIndex: number) => {
     onButtonClick(button, globalIndex);
   };
 

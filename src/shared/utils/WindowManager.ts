@@ -1,10 +1,25 @@
 import { BrowserWindow, screen, app } from "electron";
 import path from "node:path";
 import fs from "fs";
-import { MAIN_WINDOW_CONFIG } from "./config";
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined;
 declare const MAIN_WINDOW_VITE_NAME: string;
+
+// Configuración única para la ventana principal de Electron
+const MAIN_WINDOW_CONFIG = {
+  width: 1920,
+  height: 1080,
+  frame: false,
+  resizable: false,
+  fullscreen: true,
+  kiosk: true,
+  webPreferences: {
+    nodeIntegration: false,
+    contextIsolation: true,
+    enableRemoteModule: false,
+    webSecurity: true,
+  }
+};
 
 class WindowManager {
     private mainWindow: BrowserWindow | null;

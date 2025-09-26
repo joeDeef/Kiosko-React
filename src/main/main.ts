@@ -7,8 +7,16 @@ import fs from "fs";
 // Manejo de shortcuts en Windows
 if (started) app.quit();
 
+
 let windowManager: WindowManager;
 let assetManager: AssetManager;
+let lastLicenseValid = true; // Valor por defecto
+
+// Función simulada para validar licencia
+function isLicenseValid(): boolean {
+  // Cambia a false para probar la pantalla de licencia
+  return false;
+}
 
 const isDev = !app.isPackaged;
 const userDataPath = app.getPath('userData');
@@ -24,9 +32,17 @@ async function initializeApplication(): Promise<void> {
     // 3️ Registrar protocolo para app-assets (img/videos)
     assetManager.registerAssetsProtocol();
 
-    // 4 Crear ventana principal
+    // 4 Validar licencia
+    const licenseValid = isLicenseValid();
+    lastLicenseValid = licenseValid;
+
+    // 5 Crear ventana principal
     windowManager = new WindowManager();
-    windowManager.createMainWindow();
+    const mainWindow = windowManager.createMainWindow();
+// Handler IPC para consultar el estado de la licencia desde el renderer
+ipcMain.handle("get-license-status", async () => {
+  return lastLicenseValid;
+});
   } catch (error: unknown) {
     console.error("Error inicializando aplicación:", error);
     app.quit();
