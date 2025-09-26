@@ -1,23 +1,106 @@
-/* OptionEditor.css - Inspirado en table.css para diseño admin */
-.option-editor-modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(15, 23, 42, 0.18);
-  z-index: 1000;
+/* Centrado y alineación de botones de acción en OptionEditor */
+.form-buttons {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  gap: var(--space-4, 16px);
+  margin-top: var(--space-6, 32px);
   justify-content: center;
-  padding: 32px 8px;
-  overflow-y: auto;
+  align-items: center;
+  flex-wrap: nowrap;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  border: none;
+}
+.form-buttons-centered {
+  justify-content: center;
+  align-items: center;
+}
+/* Layout legacy admin para edición de opción */
+.edit-flex-row {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: var(--space-6, 32px);
+  align-items: stretch;
+  margin-bottom: var(--space-6, 32px);
+  min-height: 220px;
+@media (max-width: 900px) {
+  .edit-flex-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-4, 16px);
+    min-height: auto;
+  }
 }
 
-.option-editor-content {
+.edit-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 16px);
+  background: var(--bg-tertiary, #f6fafd);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-5, 24px);
+  border: 1px solid var(--gray-200, #e5e7eb);
+  justify-content: center;
+}
+.edit-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+.option-details.show {
+  max-height: 800px;
+  opacity: 1;
+  padding: clamp(var(--space-6), 3vw, var(--space-12));
+  margin: 0 auto;
+  max-width: 96vw;
+  width: 95%;
+  box-sizing: border-box;
+}
+  border: 1px solid var(--gray-200, #e5e7eb);
+  position: relative;
+}
+/* OptionEditor.css - Inspirado en table.css para diseño admin */
+.option-editor-modal {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: var(--space-6, 32px);
+  align-items: stretch;
+  margin-bottom: var(--space-6, 32px);
+  min-height: 220px;
+}
+@media (max-width: 900px) {
+  .edit-flex-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-4, 16px);
+    min-height: auto;
+  }
+}
+.edit-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 16px);
+  background: var(--bg-tertiary, #f6fafd);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-5, 24px);
+  border: 1px solid var(--gray-200, #e5e7eb);
+  justify-content: center;
+}
+.edit-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary, #f6fafd);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-5, 24px);
+  border: 1px solid var(--gray-200, #e5e7eb);
+  position: relative;
+}
   background: var(--bg-surface, #fff);
   border-radius: var(--radius-xl, 24px);
   box-shadow: var(--shadow-lg, 0 8px 32px rgba(0,0,0,0.18));
   padding: clamp(24px, 4vw, 48px);
   min-width: 320px;
-  max-width: 480px;
   width: 100%;
   position: relative;
   animation: fadeIn 0.2s;
@@ -49,20 +132,6 @@
   border-radius: 999px;
 }
 
-.option-editor-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: stretch;
-  margin-bottom: 24px;
-}
-@media (max-width: 600px) {
-  .option-editor-form {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
 .editor-left {
   display: flex;
   flex-direction: column;
@@ -72,18 +141,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: var(--text-primary, #222);
-  margin-bottom: 6px;
-  display: block;
-}
-.form-group input[type="text"] {
-  width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid var(--gray-300, #d1d5db);

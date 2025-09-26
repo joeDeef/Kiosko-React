@@ -4,7 +4,7 @@ import { VideoBackground, Logo } from '../../components';
 import { ButtonGrid } from '../../sections';
 import { useAssetPath, useAssets } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../../shared/types';
+import { ButtonData } from '../../../shared/types';
 
 import './Home.css';
 
@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   const { appData, loading, error } = useAssets();
   const { img, video } = useAssetPath();
 
-  const handleButtonClick = (button: Button) => {
+  const handleButtonClick = (button: ButtonData) => {
     navigate('/information', {
       state: {
         videos: button.videos,

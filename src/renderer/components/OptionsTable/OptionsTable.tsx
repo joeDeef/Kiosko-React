@@ -4,7 +4,6 @@ import { OptionEditor } from '../index';
 import { useAssetPath } from '../../hooks';
 
 interface Button {
-  id: string;
   title: string;
   icon: string;
   temporalImage?: string;
@@ -106,7 +105,7 @@ const OptionsTable: React.FC<OptionsTableProps> = ({
         <tbody id="options-list">
           {buttons.map((button, index) => [
             <tr
-              key={button.id}
+              key={button.title + index}
               className={`draggable-row${draggedIndex === index ? ' dragging' : ''}${dragOverIndex === index ? ' drag-over' : ''}${editingIndex === index ? ' selected' : ''}`}
               draggable
               onDragStart={(e) => handleDragStart(e, index)}
@@ -175,7 +174,7 @@ const OptionsTable: React.FC<OptionsTableProps> = ({
               </td>
             </tr>,
             editingIndex === index && (
-              <tr key={button.id + '-editor'}>
+              <tr key={button.title + '-editor'}>
                 <td colSpan={5} style={{ padding: 0, background: 'transparent' }}>
                   <OptionEditor
                     button={button}

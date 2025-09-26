@@ -3,7 +3,6 @@ import './OptionEditor.css';
 import { useAssetPath } from '../../hooks';
 
 interface Button {
-  id: string;
   title: string;
   icon: string;
   temporalImage?: string;
@@ -75,66 +74,72 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
         </svg>
         Editar Opción
       </h2>
-      <form className="edit-flex-row" onSubmit={e => { e.preventDefault(); handleSave(); }}>
-        <div className="edit-left">
-          <div className="form-group">
-            <label htmlFor="option-title">TÍTULO:</label>
-            <input
-              id="option-title"
-              type="text"
-              value={editedButton.title}
-              onChange={handleTitleChange}
-              placeholder="Ingresa el título de la opción"
-              maxLength={50}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="option-image">ELEGIR IMAGEN:</label>
-            <span className="format-info">Solo se aceptan archivos: PNG, JPG, JPEG, WEBP</span>
-            <input
-              ref={fileInputRef}
-              id="option-image"
-              type="file"
-              accept="image/png,image/jpg,image/jpeg,image/webp"
-              onChange={handleFileInputChange}
-            />
-          </div>
-          <button 
-            type="button" 
-            className="btn btn-videos"
-            onClick={onOpenVideoEditor}
-          >
-            REVISAR VIDEOS INFORMATIVOS ({editedButton.videos?.length || 0})
-          </button>
-        </div>
-        <div className="edit-right">
-          <div className="preview-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{marginRight: '6px', verticalAlign: 'middle'}}>
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-            PREVISUALIZACIÓN
-          </div>
-          <div className="preview-glass-button">
-            <div className="icon-container">
-              <img src={getCurrentImageSrc()} alt={editedButton.title} />
+      <form onSubmit={e => { e.preventDefault(); handleSave(); }}>
+        <div className="edit-flex-row">
+          <div className="edit-left">
+            <div className="form-group">
+              <label htmlFor="option-title">Título:</label>
+              <input
+                id="option-title"
+                type="text"
+                value={editedButton.title}
+                onChange={handleTitleChange}
+                placeholder="Ingresa el título de la opción"
+                maxLength={50}
+                required
+              />
             </div>
-            <div className="title">{editedButton.title || 'Título'}</div>
+            <div className="form-group">
+              <label htmlFor="option-image">Elegir Imagen:</label>
+              <p className="format-info">Solo se aceptan archivos: PNG, JPG, JPEG, WEBP</p>
+              <input
+                ref={fileInputRef}
+                id="option-image"
+                type="file"
+                accept="image/png,image/jpg,image/jpeg,image/webp"
+                onChange={handleFileInputChange}
+              />
+            </div>
+          </div>
+          <div className="edit-right">
+            <div className="preview-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{marginRight: '6px', verticalAlign: 'middle'}}>
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              Previsualización
+            </div>
+            <div className="preview-circle-container">
+              <div className="preview-glass-button">
+                <div className="icon-container">
+                  <img src={getCurrentImageSrc()} alt={editedButton.title} />
+                </div>
+                <div className="title">{editedButton.title || 'Título'}</div>
+              </div>
+            </div>
           </div>
         </div>
+        <button 
+          type="button" 
+          className="btn btn-videos"
+          onClick={onOpenVideoEditor}
+          style={{ margin: '24px auto 0', display: 'block' }}
+        >
+          Revisar Videos Informativos{typeof editedButton.videos?.length === 'number' ? ` (${editedButton.videos.length})` : ''}
+        </button>
         <div className="form-buttons form-buttons-centered">
           <button 
             type="button" 
             className="btn btn-secondary"
             onClick={onCancel}
           >
-            CANCELAR
+            Cancelar
           </button>
           <button 
             type="submit" 
             className="btn btn-primary"
           >
-            ACEPTAR
+            Aceptar
           </button>
         </div>
       </form>

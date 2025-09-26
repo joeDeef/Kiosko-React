@@ -30,7 +30,6 @@ class AssetManager {
 
         try {
             fse.copySync(source, target, { overwrite: true });
-            console.log('Assets copiados a userData:', target);
         } catch (err) {
             console.error('Error copiando assets:', err);
         }
@@ -53,7 +52,6 @@ class AssetManager {
 
         try {
             fse.copySync(source, target, { overwrite: true });
-            console.log('Data copiada a userData:', target);
         } catch (err) {
             console.error('Error copiando data:', err);
         }

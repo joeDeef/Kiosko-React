@@ -1,36 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './AdminPanel.css';
-import './AdminPanel.css';
-import AppData from '../../../../data/content_ui.json';
-// Secciones principales
 import { LogoSection,VideosSection, OptionsSection, PinSection } from '../../sections';
-
-// Componentes auxiliares
 import { ActionsDropdown, TabButton, ActionButton }  from '../../components';
-
-interface AdminData {
-  logo: {
-    image?: string;
-    temporalImage?: string;
-    position: 'izquierda' | 'centro' | 'derecha';
-  };
-  buttons: Array<{
-    id: string;
-    title: string;
-    icon: string;
-    temporalImage?: string;
-    order: number;
-    videos?: string[];
-  }>;
-  welcomeVideos?: string[];
-  imagesToDelete?: string[];
-  videosParaEliminar?: string[];
-}
+import { AppData } from '../../../shared/types';
+import { useData } from '../../hooks';
+import './AdminPanel.css';
 
 interface AdminPanelProps {
-  initialData?: AdminData;
-  onDataChange?: (data: AdminData) => void;
-  onSave?: (data: AdminData) => Promise<void>;
+  initialData?: AppData;
+  onDataChange?: (data: AppData) => void;
+  onSave?: (data: AppData) => Promise<void>;
   onCancel?: () => Promise<void>;
   onImport?: () => Promise<void>;
   onExport?: () => Promise<void>;
@@ -40,7 +18,6 @@ interface AdminPanelProps {
 }
 
 const AdminPanel: React.FC<AdminPanelProps> = ({
-  initialData,
   onDataChange,
   onSave,
   onCancel,
@@ -51,26 +28,19 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   onChangePin
 }) => {
   const [currentTab, setCurrentTab] = useState<'content' | 'pin'>('content');
-  const [adminData, setAdminData] = useState<AdminData>(AppData as AdminData);
+const { data, setData } = useData();
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Sincronizar con datos externos
-  useEffect(() => {
-    if (initialData) {
-      setAdminData(initialData);
-    }
-  }, [initialData]);
 
   // Notificar cambios a componente padre
   useEffect(() => {
     if (onDataChange) {
-      onDataChange(adminData);
+      onDataChange(data);
     }
-  }, [adminData, onDataChange]);
+  }, [data, onDataChange]);
 
-  const updateData = (newData: Partial<AdminData>) => {
-    setAdminData(prev => ({ ...prev, ...newData }));
+  const updateData = (newData: Partial<AppData>) => {
+    setData(prev => ({ ...prev, ...newData }));
     setHasUnsavedChanges(true);
   };
 
@@ -79,7 +49,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     
     setIsLoading(true);
     try {
-      await onSave(adminData);
+      await onSave(data);
       setHasUnsavedChanges(false);
     } catch (error) {
       console.error('Error al guardar:', error);
@@ -104,9 +74,6 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
       try {
         await onCancel();
         setHasUnsavedChanges(false);
-        if (initialData) {
-          setAdminData(initialData);
-        }
       } catch (error) {
         console.error('Error al cancelar:', error);
         alert('Error al cancelar los cambios');
@@ -171,6 +138,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
       disabled: !onExit
     }
   ];
+  
+if (!data) {
+    return <div className="admin-panel-loading">Cargando datos...</div>;
+  }
 
   return (
     <div className="admin-panel">
@@ -218,19 +189,19 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
             <div className="tab-panel">
               {/* Sección del Logo */}
               <LogoSection
-                logoData={adminData.logo}
+                logoData={data.logo}
                 onLogoUpdate={(logoData) => updateData({ logo: logoData })}
               />
 
               {/* Sección de Videos */}
               <VideosSection
-                videos={adminData.welcomeVideos || []}
+                videos={data.welcomeVideos || []}
                 onVideosUpdate={(videos) => updateData({ welcomeVideos: videos })}
               />
 
               {/* Sección de Opciones */}
               <OptionsSection
-                buttons={adminData.buttons}
+                buttons={data.buttons}
                 onButtonsUpdate={(buttons) => updateData({ buttons })}
               />
 

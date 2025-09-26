@@ -36,7 +36,6 @@ export const useAdminGesture = ({
 
     const cancelGesture = (reason?: string) => {
       if (gestureInProgressRef.current) {
-        console.log('Gesto cancelado:', reason);
         resetGesture();
       }
     };

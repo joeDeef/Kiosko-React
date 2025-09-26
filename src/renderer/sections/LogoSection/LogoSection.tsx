@@ -2,12 +2,7 @@ import React, { useState, useRef } from 'react';
 import './LogoSection.css';
 import { Logo } from '../../components'; // Tu componente Logo existente
 import { useAssetPath } from '../../hooks';
-
-interface LogoData {
-  image?: string;
-  temporalImage?: string;
-  position: 'izquierda' | 'centro' | 'derecha';
-}
+import { LogoData } from '../../../shared/types';
 
 interface LogoSectionProps {
   logoData: LogoData;

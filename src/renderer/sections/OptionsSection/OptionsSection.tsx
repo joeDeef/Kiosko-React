@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './OptionsSection.css';
 import { OptionsTable, OptionEditor } from '../../components';
-
-interface Button {
-  id: string;
-  title: string;
-  icon: string;
-  temporalImage?: string;
-  order: number;
-  videos?: string[];
-}
+import { ButtonData } from '../../../shared/types';
 
 interface OptionsSectionProps {
-  buttons: Button[];
-  onButtonsUpdate: (buttons: Button[]) => void;
+  buttons: ButtonData[];
+  onButtonsUpdate: (buttons: ButtonData[]) => void;
 }
 
 const OptionsSection: React.FC<OptionsSectionProps> = ({
   buttons,
   onButtonsUpdate
 }) => {
-  const [editingButton, setEditingButton] = useState<Button | null>(null);
+  const [editingButton, setEditingButton] = useState<ButtonData | null>(null);
   const [editingIndex, setEditingIndex] = useState<number>(-1);
+  const lastAddedId = useRef<string | null>(null);
 
   // Ordenar botones por orden
   const sortedButtons = [...buttons].sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -32,23 +25,34 @@ const OptionsSection: React.FC<OptionsSectionProps> = ({
       return;
     }
 
-    const newOption: Button = {
-      id: `opcion${Date.now()}`,
+    const newOption: ButtonData = {
       title: 'Nueva Opción',
-      icon: '',
+      icon: 'fallback.png',
       order: buttons.length + 1,
       videos: []
     };
 
+    //lastAddedId.current = newOption.id;
     const newButtons = [...buttons, newOption];
     onButtonsUpdate(newButtons);
-    
-    // Abrir editor para la nueva opción
-    setEditingButton(newOption);
-    setEditingIndex(newButtons.length - 1);
   };
+/*
+  useEffect(() => {
+    if (!lastAddedId.current) return;
+    // Esperar a que la fila esté en el DOM
+    const timeout = setTimeout(() => {
+      const row = document.querySelector(
+        `#options-list tr[data-id="${lastAddedId.current}"]`
+      ) as HTMLTableRowElement | null;
+      if (row) {
+        row.click();
+        lastAddedId.current = null;
+      }
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, [buttons]);*/
 
-  const handleEditOption = (button: Button, index: number) => {
+  const handleEditOption = (button: ButtonData, index: number) => {
     setEditingButton({ ...button }); // Crear copia para edición
     setEditingIndex(index);
   };
@@ -66,7 +70,7 @@ const OptionsSection: React.FC<OptionsSectionProps> = ({
     }
   };
 
-  const handleSaveOption = (updatedButton: Button) => {
+  const handleSaveOption = (updatedButton: ButtonData) => {
     const newButtons = [...buttons];
     if (editingIndex >= 0 && editingIndex < newButtons.length) {
       newButtons[editingIndex] = updatedButton;
@@ -84,7 +88,7 @@ const OptionsSection: React.FC<OptionsSectionProps> = ({
     setEditingIndex(-1);
   };
 
-  const handleReorderOptions = (newOrder: Button[]) => {
+  const handleReorderOptions = (newOrder: ButtonData[]) => {
     // Actualizar el orden de cada botón
     const reorderedButtons = newOrder.map((btn, index) => ({
       ...btn,
@@ -93,10 +97,7 @@ const OptionsSection: React.FC<OptionsSectionProps> = ({
     onButtonsUpdate(reorderedButtons);
   };
 
-  const handleOpenVideoEditor = (button: Button) => {
-    // Aquí puedes implementar la lógica para abrir el editor de videos
-    // similar a como estaba en el código original
-    console.log('Abrir editor de videos para:', button.title);
+  const handleOpenVideoEditor = (button: ButtonData) => {
     alert(`Editor de videos para "${button.title}" - ${button.videos?.length || 0} videos`);
   };
 
