@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import './LogoSection.css';
 import { Logo } from '../../components'; // Tu componente Logo existente
 import { useAssetPath } from '../../hooks';
@@ -13,9 +13,8 @@ const LogoSection: React.FC<LogoSectionProps> = ({
   logoData,
   onLogoUpdate
 }) => {
-  const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { img } = useAssetPath();
+  const { img, temp } = useAssetPath();
 
   const handlePositionChange = (position: 'izquierda' | 'centro' | 'derecha') => {
     onLogoUpdate({
@@ -24,7 +23,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
     });
   };
 
-  const handleFileSelect = (file: File | null) => {
+  const handleFileSelect = async (file: File | null) => {
     if (!file) return;
 
     const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
@@ -33,12 +32,19 @@ const LogoSection: React.FC<LogoSectionProps> = ({
       return;
     }
 
-    // Crear URL temporal para previsualización
-    const temporalImageUrl = URL.createObjectURL(file);
-    
+    // Leer el buffer del archivo
+    const buffer = await file.arrayBuffer();
+    // Obtener la extensión
+    const ext = file.name.split('.').pop() || 'png';
+    // Guardar en temp y obtener el nombre
+    const savedFileName = await window.electronAPI.saveTempImage(buffer, ext);
+    if (!savedFileName) {
+      alert('No se pudo guardar la imagen.');
+      return;
+    }
     onLogoUpdate({
       ...logoData,
-      temporalImage: temporalImageUrl
+      temporalImage: savedFileName
     });
   };
 
@@ -47,23 +53,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
     handleFileSelect(file);
   };
 
-  const handleDragOver = (event: React.DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (event: React.DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (event: React.DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(false);
-    
-    const file = event.dataTransfer.files[0];
-    handleFileSelect(file);
-  };
+  // Drag & drop removido, solo click para seleccionar archivo
 
   const resetToOriginal = () => {
     // Liberar URL temporal si existe
@@ -83,7 +73,10 @@ const LogoSection: React.FC<LogoSectionProps> = ({
   };
 
   const getCurrentImageSrc = () => {
-    return img(logoData.temporalImage || logoData.image || '');
+    if (logoData.temporalImage) {
+      return temp(logoData.temporalImage);
+    }
+    return img(logoData.image);
   };
 
   const hasImage = !!(logoData.temporalImage || logoData.image);
@@ -130,12 +123,8 @@ const LogoSection: React.FC<LogoSectionProps> = ({
               </label>
               <p className="format-info">Solo se aceptan archivos: PNG, JPG, JPEG, WEBP</p>
               
-              {/* Zona de drag & drop */}
               <div
-                className={`upload-zone ${isDragOver ? 'drag-over' : ''}`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
+                className="upload-zone"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -143,7 +132,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
                   <polyline points="7,10 12,15 17,10"/>
                   <line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
-                <p>Haz clic aquí o arrastra una imagen</p>
+                <p>Haz clic aquí para seleccionar una imagen</p>
               </div>
 
               <input

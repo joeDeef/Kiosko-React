@@ -214,24 +214,17 @@
     border-radius: var(--radius-lg);
     border: 1px solid var(--gray-300);
 }
-.upload-label {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+
+/* Solo click, drag & drop removido */
+.upload-zone {
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    padding: 24px;
     text-align: center;
-}
-.upload-input {
-    padding: var(--space-3);
-    border: 2px dashed var(--gray-400);
-    border-radius: var(--radius-md);
-    background: var(--bg-surface);
-    transition: all var(--transition-normal);
     cursor: pointer;
-    text-align: center;
-    font-size: var(--font-size-sm);
+    margin-bottom: 12px;
 }
+/* Eliminado bloque duplicado y mal cerrado */
 .upload-input:hover {
     border-color: var(--secondary-color);
     background: var(--bg-secondary);

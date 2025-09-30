@@ -3,5 +3,6 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electronAPI", {
   loadData: () => ipcRenderer.invoke("load-data"),
-  isLicenseValid: () => ipcRenderer.invoke("get-license-status")
+  isLicenseValid: () => ipcRenderer.invoke("get-license-status"),
+  saveTempImage: (buffer: ArrayBuffer, ext: string) => ipcRenderer.invoke("save-temp-image", buffer, ext)
 });

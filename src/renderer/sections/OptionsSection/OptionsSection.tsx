@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './OptionsSection.css';
 import { OptionsTable, OptionEditor } from '../../components';
 import { ButtonData } from '../../../shared/types';
+import './OptionsSection.css';
 
 interface OptionsSectionProps {
   buttons: ButtonData[];
@@ -36,21 +36,6 @@ const OptionsSection: React.FC<OptionsSectionProps> = ({
     const newButtons = [...buttons, newOption];
     onButtonsUpdate(newButtons);
   };
-/*
-  useEffect(() => {
-    if (!lastAddedId.current) return;
-    // Esperar a que la fila esté en el DOM
-    const timeout = setTimeout(() => {
-      const row = document.querySelector(
-        `#options-list tr[data-id="${lastAddedId.current}"]`
-      ) as HTMLTableRowElement | null;
-      if (row) {
-        row.click();
-        lastAddedId.current = null;
-      }
-    }, 50);
-    return () => clearTimeout(timeout);
-  }, [buttons]);*/
 
   const handleEditOption = (button: ButtonData, index: number) => {
     setEditingButton({ ...button }); // Crear copia para edición

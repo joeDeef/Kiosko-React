@@ -20,7 +20,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
   const [editedButton, setEditedButton] = useState<ButtonData>({ ...button });
   const [previewImage, setPreviewImage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { img } = useAssetPath();
+  const { img, temp } = useAssetPath();
 
   useEffect(() => {
     const initialImage = button.temporalImage || button.icon || '';
@@ -56,7 +56,13 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
   };
 
   const getCurrentImageSrc = () => {
-    return img(previewImage || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"%3E%3Cpath d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/%3E%3C/svg%3E');
+    if (editedButton.temporalImage) {
+      return temp(editedButton.temporalImage);
+    }
+    if (editedButton.icon) {
+      return img(editedButton.icon);
+    }
+    return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"%3E%3Cpath d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/%3E%3C/svg%3E';
   };
 
   return (
@@ -132,6 +138,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
           <button 
             type="submit" 
             className="btn btn-primary"
+            onClick={handleSave}
           >
             Aceptar
           </button>

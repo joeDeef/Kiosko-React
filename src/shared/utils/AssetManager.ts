@@ -63,19 +63,25 @@ class AssetManager {
         this.copyData();
     }
 
-    /** Registra el protocolo app-assets para leer desde userData/assets */
-    registerAssetsProtocol() {
-        protocol.registerFileProtocol('app-assets', (request, callback) => {
-            const relativePath = request.url.replace('app-assets://', '');
-            const filePath = path.join(this.userDataPath, 'assets', relativePath);
+    /** Registra protocolos personalizados para servir archivos desde subcarpetas de userData */
+    private registerFileProtocol(protocolName: string, subfolder: string, errorMsg: string) {
+        protocol.registerFileProtocol(protocolName, (request, callback) => {
+            const relativePath = request.url.replace(`${protocolName}://`, '');
+            const filePath = path.join(this.userDataPath, subfolder, relativePath);
 
             if (fs.existsSync(filePath)) {
                 callback({ path: filePath });
             } else {
-                console.error('Archivo no encontrado:', filePath);
+                console.error(`${errorMsg}:`, filePath);
                 callback({ error: -6 });
             }
         });
+    }
+
+    /** Registra los protocolos app-assets y app-temp */
+    registerAssetsProtocol() {
+        this.registerFileProtocol('app-assets', 'assets', 'Archivo no encontrado');
+        this.registerFileProtocol('app-temp', 'temp', 'Archivo temporal no encontrado');
     }
 
     /** Obtiene la ruta de un asset dentro de userData */
