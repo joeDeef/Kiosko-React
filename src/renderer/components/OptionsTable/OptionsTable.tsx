@@ -1,21 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { OptionEditor } from '../index';
 import { useAssetPath } from '../../hooks';
+import { ButtonData } from '../../../shared/types';
 import './OptionsTable.css';
 
-interface Button {
-  title: string;
-  icon: string;
-  temporalImage?: string;
-  order: number;
-  videos: string[];
-}
-
 interface OptionsTableProps {
-  buttons: Button[];
-  onEdit: (button: Button, index: number) => void;
+  buttons: ButtonData[];
+  onEdit: (button: ButtonData, index: number) => void;
   onDelete: (index: number) => void;
-  onReorder: (newOrder: Button[]) => void;
+  onReorder: (newOrder: ButtonData[]) => void;
   maxOptions?: number;
 }
 
@@ -80,7 +73,7 @@ const OptionsTable: React.FC<OptionsTableProps> = ({
     setDragOverIndex(null);
   };
 
-  const getImageSrc = (button: Button): string => {
+  const getImageSrc = (button: ButtonData): string => {
     if (button.temporalImage) {
       return temp(button.temporalImage);
     }
@@ -178,12 +171,13 @@ const OptionsTable: React.FC<OptionsTableProps> = ({
                 <td colSpan={5} style={{ padding: 0, background: 'transparent' }}>
                   <OptionEditor
                     button={button}
-                    onSave={(updated: Button) => {
+                    onSave={(updated: ButtonData) => {
                       onEdit(updated, index);
                       setEditingIndex(null);
                     }}
                     onCancel={() => setEditingIndex(null)}
                     onOpenVideoEditor={() => { }}
+                    
                   />
                 </td>
               </tr>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LogoSection,VideosSection, OptionsSection, PinSection } from '../../sections';
 import { ActionsDropdown, TabButton, ActionButton }  from '../../components';
 import { AppData } from '../../../shared/types';
-import { useData } from '../../hooks';
+import { useAdminPanel } from '../../../shared/context/AdminPanelContext';
 import './AdminPanel.css';
 
 interface AdminPanelProps {
@@ -28,7 +28,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   onChangePin
 }) => {
   const [currentTab, setCurrentTab] = useState<'content' | 'pin'>('content');
-const { data, setData } = useData();
+  const { data } = useAdminPanel();
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,11 +38,6 @@ const { data, setData } = useData();
       onDataChange(data);
     }
   }, [data, onDataChange]);
-
-  const updateData = (newData: Partial<AppData>) => {
-    setData(prev => ({ ...prev, ...newData }));
-    setHasUnsavedChanges(true);
-  };
 
   const handleSave = async () => {
     if (!onSave) return;
@@ -194,19 +189,16 @@ if (!data) {
               {/* Sección del Logo */}
               <LogoSection
                 logoData={data.logo}
-                onLogoUpdate={(logoData) => updateData({ logo: logoData })}
               />
 
               {/* Sección de Videos */}
               <VideosSection
                 videos={data.welcomeVideos || []}
-                onVideosUpdate={(videos) => updateData({ welcomeVideos: videos })}
               />
 
               {/* Sección de Opciones */}
               <OptionsSection
                 buttons={data.buttons}
-                onButtonsUpdate={(buttons) => updateData({ buttons })}
               />
 
               {/* Botones de acción del tab de contenido */}

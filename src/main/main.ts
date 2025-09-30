@@ -69,7 +69,6 @@ ipcMain.handle("load-data", async () => {
   }
 });
 
-
 ipcMain.handle("save-temp-image", async (_event, buffer: ArrayBuffer, ext: string) => {
   try {
     const tempDir = path.join(app.getPath("userData"), "temp");
@@ -81,6 +80,26 @@ ipcMain.handle("save-temp-image", async (_event, buffer: ArrayBuffer, ext: strin
   } catch (err) {
     console.error("Error guardando imagen temporal:", err);
     return null;
+  }
+});
+
+ipcMain.handle("remove-temp-file", async (_event, fileName: string) => {
+  try {
+    const tempDir = path.join(app.getPath("userData"), "temp");
+    const filePath = path.join(tempDir, fileName);
+
+    console.log("Intentando eliminar archivo temporal:", filePath);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+      return true;
+    } else {
+      console.warn("Archivo temporal no encontrado:", filePath);
+      return false;
+    }
+  } catch (err) {
+    console.error("Error eliminando archivo temporal:", err);
+    return false;
   }
 });
 

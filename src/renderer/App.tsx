@@ -1,6 +1,7 @@
 
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Loading, Home, Information, AdminPanel } from "./pages";
+import { AdminPanelProvider } from "../shared/context/AdminPanelContext";
 
 // Componente de prueba para la página de licencia
 function LicensePage() {
@@ -35,10 +36,14 @@ function App() {
                 )}
                 {licenseValid && (
                     <>
-                        <Route path="/" element={<AdminPanel />} />
+                        <Route path="/" element={<AdminPanelProvider>
+                            <AdminPanel />
+                        </AdminPanelProvider>} />
                         <Route path="/home" element={<Home />} />
                         <Route path="/information" element={<Information />} />
-                        <Route path="/admin" element={<AdminPanel />} />
+                        <Route path="/admin" element={    <AdminPanelProvider>
+      <AdminPanel />
+    </AdminPanelProvider>} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </>
                 )}

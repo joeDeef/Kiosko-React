@@ -3,7 +3,7 @@ import './VideosSection.css';
 
 interface VideosSectionProps {
   videos: string[];
-  onVideosUpdate: (videos: string[]) => void;
+  onVideosUpdate?: (videos: string[]) => void;
   onOpenVideoEditor?: (videos: string[]) => void;
 }
 

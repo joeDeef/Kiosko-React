@@ -5,7 +5,7 @@ import './OptionsSection.css';
 
 interface OptionsSectionProps {
   buttons: ButtonData[];
-  onButtonsUpdate: (buttons: ButtonData[]) => void;
+  onButtonsUpdate?: (buttons: ButtonData[]) => void;
 }
 
 const OptionsSection: React.FC<OptionsSectionProps> = ({

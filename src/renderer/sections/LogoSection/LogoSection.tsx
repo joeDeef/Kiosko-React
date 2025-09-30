@@ -1,26 +1,23 @@
 import React, { useRef } from 'react';
-import './LogoSection.css';
 import { Logo } from '../../components'; // Tu componente Logo existente
 import { useAssetPath } from '../../hooks';
 import { LogoData } from '../../../shared/types';
+import { useAdminPanel } from '../../../shared/context/AdminPanelContext';
+import './LogoSection.css';
 
 interface LogoSectionProps {
   logoData: LogoData;
-  onLogoUpdate: (logoData: LogoData) => void;
 }
 
 const LogoSection: React.FC<LogoSectionProps> = ({
-  logoData,
-  onLogoUpdate
+  logoData
 }) => {
+  const { updateData, addImageToDelete, removeImageToDelete } = useAdminPanel();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { img, temp } = useAssetPath();
 
   const handlePositionChange = (position: 'izquierda' | 'centro' | 'derecha') => {
-    onLogoUpdate({
-      ...logoData,
-      position
-    });
+    updateData({ logo: { ...logoData, position } });
   };
 
   const handleFileSelect = async (file: File | null) => {
@@ -42,10 +39,10 @@ const LogoSection: React.FC<LogoSectionProps> = ({
       alert('No se pudo guardar la imagen.');
       return;
     }
-    onLogoUpdate({
-      ...logoData,
-      temporalImage: savedFileName
+    updateData({
+      logo: { ...logoData, temporalImage: savedFileName }
     });
+    addImageToDelete(logoData.image);
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,22 +52,15 @@ const LogoSection: React.FC<LogoSectionProps> = ({
 
   // Drag & drop removido, solo click para seleccionar archivo
 
-  const resetToOriginal = () => {
-    // Liberar URL temporal si existe
-    if (logoData.temporalImage && logoData.temporalImage.startsWith('blob:')) {
-      URL.revokeObjectURL(logoData.temporalImage);
+  const resetToOriginal = async () => {
+    if (logoData.temporalImage) {
+      await window.electronAPI.removeTempFile(logoData.temporalImage);
     }
-
-    onLogoUpdate({
-      ...logoData,
-      temporalImage: undefined
-    });
-
-    // Limpiar input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    const { temporalImage, ...logoWithoutTemp } = logoData;
+    updateData({ logo: logoWithoutTemp });
+    removeImageToDelete(logoData.image);
   };
+
 
   const getCurrentImageSrc = () => {
     if (logoData.temporalImage) {
@@ -122,15 +112,15 @@ const LogoSection: React.FC<LogoSectionProps> = ({
                 Cargar nuevo logo:
               </label>
               <p className="format-info">Solo se aceptan archivos: PNG, JPG, JPEG, WEBP</p>
-              
+
               <div
                 className="upload-zone"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7,10 12,15 17,10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7,10 12,15 17,10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
                 <p>Haz clic aquí para seleccionar una imagen</p>
               </div>

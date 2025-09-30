@@ -31,13 +31,17 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
     setEditedButton(prev => ({ ...prev, title: e.target.value }));
   };
 
-  const handleImageSelect = (file: File) => {
+  const handleImageSelect = async(file: File) => {
     const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
     if (!allowedTypes.includes(file.type.toLowerCase())) {
       alert('Por favor selecciona un archivo de imagen válido (PNG, JPG, JPEG o WEBP)');
       return;
     }
-    const temporalImageUrl = URL.createObjectURL(file);
+
+    const buffer = await file.arrayBuffer();
+    const ext = file.name.split('.').pop() || 'png';
+    const temporalImageUrl = await window.electronAPI.saveTempImage(buffer, ext);
+
     setEditedButton(prev => ({ ...prev, temporalImage: temporalImageUrl }));
     setPreviewImage(temporalImageUrl);
   };
