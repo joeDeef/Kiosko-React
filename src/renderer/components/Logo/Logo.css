@@ -7,24 +7,36 @@
   z-index: 10;
   filter: drop-shadow(0 clamp(1px, 0.2vh, 4px) clamp(4px, 0.5vh, 12px) rgba(0,0,0,0.3));
   transition: transform 0.3s ease, top 0.3s ease, width 0.3s ease;
+  object-fit: contain;
 }
 
 /* Posición izquierda */
-.logo--left {
+.logo--izquierda {
   left: clamp(15px, 2vw, 40px);
   right: auto;
 }
 
 /* Posición centro */
-.logo--center {
+.logo--centro {
   left: 50%;
   transform: translateX(-50%);
 }
 
 /* Posición derecha */
-.logo--right {
+.logo--derecha {
   right: clamp(15px, 2vw, 40px);
   left: auto;
+}
+
+/* Posición normal: centrado completo en el contenedor */
+.logo--none {
+  position: static;      /* no absolute */
+  width: 100%;           /* ocupa todo el ancho disponible del contenedor */
+  height: 100%;          /* ocupa todo el alto disponible del contenedor */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;   /* mantiene proporción sin deformar */
+  display: block;        /* necesario para img dentro de flexbox */
 }
 
 /* Estado de error */

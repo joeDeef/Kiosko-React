@@ -100,7 +100,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
               {hasImage ? (
                 <Logo
                   src={getCurrentImageSrc()}
-                  position={logoData.position}
+                  position={"none"}
                   className={`logo-image ${isTemporalImage ? 'temporal-image' : ''}`}
                 />
               ) : (

@@ -35,7 +35,7 @@ function App() {
                 )}
                 {licenseValid && (
                     <>
-                        <Route path="/" element={<Loading />} />
+                        <Route path="/" element={<AdminPanel />} />
                         <Route path="/home" element={<Home />} />
                         <Route path="/information" element={<Information />} />
                         <Route path="/admin" element={<AdminPanel />} />

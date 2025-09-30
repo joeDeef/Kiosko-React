@@ -15,7 +15,7 @@ let lastLicenseValid = true; // Valor por defecto
 // Función simulada para validar licencia
 function isLicenseValid(): boolean {
   // Cambia a false para probar la pantalla de licencia
-  return false;
+  return true;
 }
 
 const isDev = !app.isPackaged;

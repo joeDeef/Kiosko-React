@@ -113,21 +113,21 @@
 }
 
 .logo-wrapper {
-    width: 100%;
-    aspect-ratio: 1;
-    max-width: 240px;
-    border-radius: var(--radius-xl);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--bg-secondary);
-    margin: 0 auto;
-    border: 2px solid var(--gray-300);
-    transition: all var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
+  display: flex;             /* para usar flexbox */
+  justify-content: center;   /* centrar horizontal */
+  align-items: center;       /* centrar vertical */
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 240px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-secondary);
+  margin: 0 auto;
+  overflow: hidden;          /* recortar si se sale */
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--gray-300);
+  position: relative;        /* necesario para logos absolute en otras posiciones */
 }
+
 .logo-wrapper:hover {
     border-color: var(--secondary-color);
     box-shadow: var(--shadow-md);
@@ -478,8 +478,8 @@
 
 .logo-wrapper {
     width: 100%;
-    aspect-ratio: 1;
-    max-width: 240px;
+    height: 240px;
+    min-height: 180px;
     border-radius: var(--radius-xl);
     display: flex;
     justify-content: center;

@@ -3,7 +3,7 @@ import './Logo.css';
 
 interface LogoProps {
   src: string;
-  position: "derecha" | "centro" | "izquierda";
+  position: "derecha" | "centro" | "izquierda" |"none";
   alt?: string;
   className?: string;
 }
