@@ -1,7 +1,6 @@
-import React from 'react';
 import { VideoBackground, Logo } from '../../components';
 import { ButtonGrid } from '../../sections';
-import { useAssetPath, useAssets, useData } from '../../hooks';
+import { useAssetPath, useData } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { ButtonData } from '../../../shared/types';
 
@@ -9,9 +8,8 @@ import './Home.css';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const { loading, error } = useAssets();
   const { img, video } = useAssetPath();
-  const { data } = useData();
+  const { data, loading, error } = useData();
 
   const handleButtonClick = (button: ButtonData) => {
     navigate('/information', {
@@ -21,7 +19,6 @@ const Home: React.FC = () => {
       },
     });
   };
-
 
   if (loading) {
     return (
@@ -52,7 +49,7 @@ const Home: React.FC = () => {
           videos={data.welcomeVideos}
           getAssetPath={(type, filename) => video(filename)}
           muted={false}
-          loop={true} // Home: loop infinito
+          loop={true}
         />
       )}
 
@@ -61,15 +58,17 @@ const Home: React.FC = () => {
         <Logo
           src={img(data.logo.image)}
           position={data.logo.position}
-          alt="Logo de la aplicación"
+          alt="Logo de la empresa"
         />
       )}
 
       {/* Grid de botones */}
-      <ButtonGrid
-        buttons={data.buttons || []}
-        onButtonClick={handleButtonClick}
-      />
+      {data.buttons?.length > 0 && (
+        <ButtonGrid
+          buttons={data.buttons}
+          onButtonClick={handleButtonClick}
+        />
+      )}
     </div>
   );
 };

@@ -1,20 +1,16 @@
-import React from 'react';
 import { GlassButton } from '../../components';
 import { useAssetPath } from '../../hooks';
 import { ButtonData } from '../../../shared/types';
 import './ButtonGrid.css';
 
-
 interface ButtonGridProps {
   buttons: ButtonData[];
   onButtonClick: (button: ButtonData, index: number) => void;
-  className?: string;
 }
 
 const ButtonGrid: React.FC<ButtonGridProps> = ({
   buttons,
   onButtonClick,
-  className = ''
 }) => {
   const { img } = useAssetPath();
 
@@ -59,7 +55,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({
 
   if (processedButtons.length === 0) {
     return (
-      <div className={`button-grid ${className}`}>
+      <div className={`button-grid`}>
         <div className="button-grid__error">
           <p>No se encontraron botones válidos</p>
           <p className="button-grid__error-subtitle">Verifica la configuración</p>
@@ -87,7 +83,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({
   };
 
   return (
-    <div className={`button-grid ${className}`}>
+    <div className={`button-grid`}>
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="button-grid__row">
           {row.map((button, buttonIndex) => {
@@ -96,13 +92,12 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({
 
             return (
               <GlassButton
-                key={button.title + globalIndex} // o button.id si existe
+                key={button.id}
                 title={button.title}
                 icon={iconPath}
                 onClick={() => handleButtonClick(button, globalIndex)}
                 index={globalIndex}
               />
-
             );
           })}
         </div>

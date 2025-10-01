@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
 import { AppData } from "../../shared/types";
-// El tipado global de electronAPI ya está disponible por electron-api.d.ts
 
 export function useData() {
   const [data, setData] = useState<AppData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     window.electronAPI.loadData()
-      .then(setData)
+      .then((result) => {
+        setData(result);
+        setError(null);
+      })
       .catch((err) => {
         console.error("Error cargando datos:", err);
+        setError("Error cargando datos");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
-  return { data, setData };
+  return { data, setData, loading, error };
 }

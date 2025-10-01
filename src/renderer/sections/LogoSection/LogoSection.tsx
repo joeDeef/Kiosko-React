@@ -12,12 +12,14 @@ interface LogoSectionProps {
 const LogoSection: React.FC<LogoSectionProps> = ({
   logoData
 }) => {
-  const { updateData, addImageToDelete, removeImageToDelete } = useAdminPanel();
+  const { updateData, addImageToDelete, removeImageToDelete, deleteProperty } = useAdminPanel();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { img, temp } = useAssetPath();
 
   const handlePositionChange = (position: 'izquierda' | 'centro' | 'derecha') => {
-    updateData({ logo: { ...logoData, position } });
+    updateData(draft => {
+      draft.logo.position = position;
+    });
   };
 
   const handleFileSelect = async (file: File | null) => {
@@ -39,8 +41,8 @@ const LogoSection: React.FC<LogoSectionProps> = ({
       alert('No se pudo guardar la imagen.');
       return;
     }
-    updateData({
-      logo: { ...logoData, temporalImage: savedFileName }
+    updateData(draft => {
+      draft.logo.temporalImage = savedFileName;
     });
     addImageToDelete(logoData.image);
   };
@@ -56,8 +58,10 @@ const LogoSection: React.FC<LogoSectionProps> = ({
     if (logoData.temporalImage) {
       await window.electronAPI.removeTempFile(logoData.temporalImage);
     }
-    const { temporalImage, ...logoWithoutTemp } = logoData;
-    updateData({ logo: logoWithoutTemp });
+
+    // Eliminar la propiedad temporalImage completamente
+    deleteProperty('logo.temporalImage');
+
     removeImageToDelete(logoData.image);
   };
 

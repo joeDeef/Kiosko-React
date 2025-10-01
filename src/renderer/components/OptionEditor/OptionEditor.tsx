@@ -3,7 +3,6 @@ import { useAssetPath } from '../../hooks';
 import { ButtonData } from '../../../shared/types';
 import './OptionEditor.css';
 
-
 interface OptionEditorProps {
   button: ButtonData;
   onSave: (button: ButtonData) => void;

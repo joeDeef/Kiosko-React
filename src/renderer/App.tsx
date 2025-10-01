@@ -36,15 +36,16 @@ function App() {
                 )}
                 {licenseValid && (
                     <>
-                        <Route path="/" element={<AdminPanelProvider>
-                            <AdminPanel />
-                        </AdminPanelProvider>} />
+                        <Route path="/" element={
+                            <AdminPanelProvider>
+                                <AdminPanel />
+                            </AdminPanelProvider>} />
                         <Route path="/home" element={<Home />} />
                         <Route path="/information" element={<Information />} />
-                        <Route path="/admin" element={    <AdminPanelProvider>
-      <AdminPanel />
-    </AdminPanelProvider>} />
-                        <Route path="*" element={<Navigate to="/" />} />
+                        <Route path="/admin" element={
+                            <AdminPanelProvider>
+                                <AdminPanel />
+                            </AdminPanelProvider>} />
                     </>
                 )}
             </Routes>

@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import './Information.css';
+import { useEffect } from 'react';
 import { Logo, VideoBackground } from '../../components';
 import { useAssetPath } from '../../hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -33,7 +32,7 @@ const Information: React.FC = () => {
           videos={videosList}
           getAssetPath={(type, filename) => video(filename)}
           muted={false}
-          onEnded={() => navigate('/home')} // Information: solo 1 video
+          onEnded={() => navigate('/home')}
           loop={false}
         />
       )}

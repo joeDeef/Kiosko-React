@@ -6,6 +6,7 @@ export interface LogoData {
 }
 
 export interface ButtonData {
+  id: string; // ID único del botón
   order: number; // Orden de aparición
   icon: string; // Nombre del archivo de icono
   title: string; // Título del botón
