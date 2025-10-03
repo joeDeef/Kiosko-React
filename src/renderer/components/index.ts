@@ -7,3 +7,4 @@ export { default as ActionsDropdown } from './ActionsDropdown/ActionsDropdown';
 export { default as TabButton } from './TabButton/TabButton';
 export { default as OptionsTable } from './OptionsTable/OptionsTable';
 export { default as OptionEditor } from './OptionEditor/OptionEditor';
+export { default as ImageCropModal } from './ImageCropModal/ImageCropModal';

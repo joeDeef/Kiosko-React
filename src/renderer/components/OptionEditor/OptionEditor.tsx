@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAssetPath } from '../../hooks';
 import { ButtonData } from '../../../shared/types';
 import { useAdminPanel } from '../../../shared/context/AdminPanelContext';
+import { ImageCropModal } from '../index';
 import './OptionEditor.css';
 
 interface OptionEditorProps {
@@ -20,6 +21,8 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { img, temp } = useAssetPath();
   const { updateData, addImageToDelete, removeImageToDelete } = useAdminPanel();
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [tempFile, setTempFile] = useState<File | null>(null);
 
   useEffect(() => {
     const initialImage = button.temporalImage || button.icon || '';
@@ -39,7 +42,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
 
     const buffer = await file.arrayBuffer();
     const ext = file.name.split('.').pop() || 'png';
-    const temporalImageUrl = await window.electronAPI.saveTempImage(buffer, ext, `option-${editedButton.id}`);
+    const temporalImageUrl = await window.electronAPI.saveTempImage(buffer, ext, `option`);
 
     setEditedButton(prev => ({ ...prev, temporalImage: temporalImageUrl }));
     setPreviewImage(temporalImageUrl);
@@ -47,8 +50,32 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) handleImageSelect(file);
+    if (!file) return;
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      if (img.width !== img.height) {
+        // abrir modal de recorte
+        setTempFile(file);
+        setCropModalOpen(true);
+      } else {
+        // ya es cuadrada, sigue el flujo normal
+        handleImageSelect(file);
+      }
+    };
   };
+
+  const handleCropComplete = async (croppedDataUrl: string) => {
+    // Convertir base64 a File/Blob
+    const res = await fetch(croppedDataUrl);
+    const blob = await res.blob();
+    const file = new File([blob], 'cropped.png', { type: 'image/png' });
+
+    handleImageSelect(file);
+    setCropModalOpen(false);
+  };
+
 
   const handleSave = () => {
     if (!editedButton.title.trim()) {
@@ -153,19 +180,27 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={closeOpenEditor}
+            onClick={handleCancel}
           >
             Cancelar
           </button>
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={handleCancel}
+            onClick={handleSave}
           >
             Aceptar
           </button>
         </div>
       </form>
+      {cropModalOpen && tempFile && (
+        <ImageCropModal
+          imageSrc={URL.createObjectURL(tempFile)}
+          onClose={() => setCropModalOpen(false)}
+          onCrop={handleCropComplete}
+        />
+      )}
+
     </div>
   );
 };
