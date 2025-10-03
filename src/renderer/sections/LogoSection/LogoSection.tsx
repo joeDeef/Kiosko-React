@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Logo } from '../../components'; // Tu componente Logo existente
+import { Logo } from '../../components';
 import { useAssetPath } from '../../hooks';
 import { LogoData } from '../../../shared/types';
 import { useAdminPanel } from '../../../shared/context/AdminPanelContext';
@@ -12,7 +12,7 @@ interface LogoSectionProps {
 const LogoSection: React.FC<LogoSectionProps> = ({
   logoData
 }) => {
-  const { updateData, addImageToDelete, removeImageToDelete, deleteProperty } = useAdminPanel();
+  const { updateData, addImageToDelete, removeImageToDelete } = useAdminPanel();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { img, temp } = useAssetPath();
 
@@ -31,10 +31,8 @@ const LogoSection: React.FC<LogoSectionProps> = ({
       return;
     }
 
-    // Leer el buffer del archivo
-    const buffer = await file.arrayBuffer();
-    // Obtener la extensión
-    const ext = file.name.split('.').pop() || 'png';
+    const buffer = await file.arrayBuffer();              // Leer el buffer del archivo
+    const ext = file.name.split('.').pop() || 'png';      // Obtener la extensión
     // Guardar en temp y obtener el nombre
     const savedFileName = await window.electronAPI.saveTempImage(buffer, ext);
     if (!savedFileName) {
@@ -52,19 +50,15 @@ const LogoSection: React.FC<LogoSectionProps> = ({
     handleFileSelect(file);
   };
 
-  // Drag & drop removido, solo click para seleccionar archivo
-
   const resetToOriginal = async () => {
     if (logoData.temporalImage) {
       await window.electronAPI.removeTempFile(logoData.temporalImage);
+      updateData(draft => {
+        delete draft.logo.temporalImage;
+      });
+      removeImageToDelete(logoData.image);
     }
-
-    // Eliminar la propiedad temporalImage completamente
-    deleteProperty('logo.temporalImage');
-
-    removeImageToDelete(logoData.image);
   };
-
 
   const getCurrentImageSrc = () => {
     if (logoData.temporalImage) {

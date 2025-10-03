@@ -69,11 +69,11 @@ ipcMain.handle("load-data", async () => {
   }
 });
 
-ipcMain.handle("save-temp-image", async (_event, buffer: ArrayBuffer, ext: string) => {
+ipcMain.handle("save-temp-image", async (_event, buffer: ArrayBuffer, ext: string, preNombre: string) => {
   try {
     const tempDir = path.join(app.getPath("userData"), "temp");
     if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
-    const fileName = `logo_${Date.now()}.${ext.replace(/[^a-zA-Z0-9]/g, "")}`;
+    const fileName = `${preNombre}_${Date.now()}.${ext.replace(/[^a-zA-Z0-9]/g, "")}`;
     const filePath = path.join(tempDir, fileName);
     fs.writeFileSync(filePath, Buffer.from(buffer));
     return fileName;

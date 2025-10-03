@@ -1,25 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAssetPath } from '../../hooks';
 import { ButtonData } from '../../../shared/types';
+import { useAdminPanel } from '../../../shared/context/AdminPanelContext';
 import './OptionEditor.css';
 
 interface OptionEditorProps {
   button: ButtonData;
-  onSave: (button: ButtonData) => void;
-  onCancel: () => void;
+  closeOpenEditor: () => void;
   onOpenVideoEditor?: () => void;
 }
 
 const OptionEditor: React.FC<OptionEditorProps> = ({
   button,
-  onSave,
-  onCancel,
+  closeOpenEditor,
   onOpenVideoEditor
 }) => {
   const [editedButton, setEditedButton] = useState<ButtonData>({ ...button });
   const [previewImage, setPreviewImage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { img, temp } = useAssetPath();
+  const { updateData, addImageToDelete, removeImageToDelete } = useAdminPanel();
 
   useEffect(() => {
     const initialImage = button.temporalImage || button.icon || '';
@@ -30,7 +30,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
     setEditedButton(prev => ({ ...prev, title: e.target.value }));
   };
 
-  const handleImageSelect = async(file: File) => {
+  const handleImageSelect = async (file: File) => {
     const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
     if (!allowedTypes.includes(file.type.toLowerCase())) {
       alert('Por favor selecciona un archivo de imagen válido (PNG, JPG, JPEG o WEBP)');
@@ -39,7 +39,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
 
     const buffer = await file.arrayBuffer();
     const ext = file.name.split('.').pop() || 'png';
-    const temporalImageUrl = await window.electronAPI.saveTempImage(buffer, ext);
+    const temporalImageUrl = await window.electronAPI.saveTempImage(buffer, ext, `option-${editedButton.id}`);
 
     setEditedButton(prev => ({ ...prev, temporalImage: temporalImageUrl }));
     setPreviewImage(temporalImageUrl);
@@ -55,7 +55,26 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
       alert('El título no puede estar vacío');
       return;
     }
-    onSave(editedButton);
+
+    updateData(draft => {
+      const index = draft.buttons.findIndex(b => b.id === editedButton.id);
+      if (index >= 0) {
+        draft.buttons[index] = editedButton;
+      } else {
+        draft.buttons.push(editedButton);
+      }
+    });
+    addImageToDelete(button.icon);
+    closeOpenEditor();
+  };
+
+  const handleCancel = async () => {
+    // Eliminar la imagen temp si se agrego
+    if (editedButton.temporalImage) {
+      await window.electronAPI.removeTempFile(editedButton.temporalImage);
+    }
+    // cerrar el editor
+    closeOpenEditor();
   };
 
   const getCurrentImageSrc = () => {
@@ -71,9 +90,9 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
   return (
     <div className="option-details show">
       <h2>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{marginRight: '8px', verticalAlign: 'middle'}}>
-          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px', verticalAlign: 'middle' }}>
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
         </svg>
         Editar Opción
       </h2>
@@ -106,9 +125,9 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
           </div>
           <div className="edit-right">
             <div className="preview-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{marginRight: '6px', verticalAlign: 'middle'}}>
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '6px', verticalAlign: 'middle' }}>
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
               </svg>
               Previsualización
             </div>
@@ -122,8 +141,8 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
             </div>
           </div>
         </div>
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="btn btn-videos"
           onClick={onOpenVideoEditor}
           style={{ margin: '24px auto 0', display: 'block' }}
@@ -131,17 +150,17 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
           Revisar Videos Informativos{typeof editedButton.videos?.length === 'number' ? ` (${editedButton.videos.length})` : ''}
         </button>
         <div className="form-buttons form-buttons-centered">
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="btn btn-secondary"
-            onClick={onCancel}
+            onClick={closeOpenEditor}
           >
             Cancelar
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="btn btn-primary"
-            onClick={handleSave}
+            onClick={handleCancel}
           >
             Aceptar
           </button>

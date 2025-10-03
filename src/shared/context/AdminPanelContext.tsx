@@ -6,7 +6,6 @@ import { produce } from "immer";
 interface AdminPanelContextType {
   data: AppData | null;
   updateData: (callback: (draft: AppData) => void) => void;
-  deleteProperty?: (path: string) => void;
   addImageToDelete?: (img: string) => void;
   removeImageToDelete?: (img: string) => void;
 }
@@ -28,23 +27,32 @@ export const AdminPanelProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const addImageToDelete = (img: string) => {
     if (!data) return;
     updateData(draft => {
-      if (!draft.imagesToDelete) {
-        draft.imagesToDelete = [];
-      }
-      if (img && !draft.imagesToDelete.includes(img)) {
-        draft.imagesToDelete.push(img);
+      if (!draft.imagesToDelete) draft.imagesToDelete = [];
+      if (img && !draft.imagesToDelete.includes(img)) draft.imagesToDelete.push(img);
+    });
+  };
+
+  const removeImageToDelete = (img: string) => {
+    if (!data) return;
+    updateData(draft => {
+      if (draft.imagesToDelete) {
+        draft.imagesToDelete = draft.imagesToDelete.filter(i => i !== img);
       }
     });
-
-    return (
-      <AdminPanelContext.Provider value={{ data, updateData }}>
-        {children}
-      </AdminPanelContext.Provider>
-    );
   };
 
-  export const useAdminPanel = () => {
-    const ctx = useContext(AdminPanelContext);
-    if (!ctx) throw new Error("useAdminPanel must be used within AdminPanelProvider");
-    return ctx;
-  };
+  // **Aquí está la clave: devolver el Provider**
+  return (
+    <AdminPanelContext.Provider
+      value={{ data, updateData, addImageToDelete, removeImageToDelete }}
+    >
+      {children}
+    </AdminPanelContext.Provider>
+  );
+};
+
+export const useAdminPanel = () => {
+  const ctx = useContext(AdminPanelContext);
+  if (!ctx) throw new Error("useAdminPanel must be used within AdminPanelProvider");
+  return ctx;
+};
