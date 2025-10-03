@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
+import { VideoEditorModal } from '../../components';
 import './VideosSection.css';
 
 interface VideosSectionProps {
   videos: string[];
-  onVideosUpdate?: (videos: string[]) => void;
-  onOpenVideoEditor?: (videos: string[]) => void;
 }
 
 const VideosSection: React.FC<VideosSectionProps> = ({
   videos,
-  onVideosUpdate,
-  onOpenVideoEditor
 }) => {
-  const [showVideoList, setShowVideoList] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [currentVideos, setCurrentVideos] = useState<string[]>(videos);
 
   const handleRevisarVideos = () => {
-    if (onOpenVideoEditor) {
-      // Si hay un editor personalizado, usarlo
-      onOpenVideoEditor(videos);
-    } else {
-      // Si no, mostrar la lista simple
-      setShowVideoList(true);
-    }
+    setShowVideoModal(true);
+  };
+
+  const handleSaveVideos = (updatedVideos: string[], videosToDelete: string[]) => {
+    setCurrentVideos(updatedVideos);
+    //if (onVideosUpdate) onVideosUpdate(updatedVideos); // notificar al padre
+    setShowVideoModal(false);
+    console.log('Videos eliminados:', videosToDelete);
   };
 
   return (
@@ -37,9 +36,17 @@ const VideosSection: React.FC<VideosSectionProps> = ({
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{marginRight: '8px'}}>
             <polygon points="5,3 19,12 5,21"/>
           </svg>
-          Revisar videos ({videos.length})
+          Revisar videos ({currentVideos.length})
         </button>
       </div>
+
+      {showVideoModal && (
+        <VideoEditorModal
+          videos={videos}
+          onClose={() => setShowVideoModal(false)}
+          onSave={handleSaveVideos}
+        />
+      )}
     </div>
   );
 };

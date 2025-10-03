@@ -8,3 +8,4 @@ export { default as TabButton } from './TabButton/TabButton';
 export { default as OptionsTable } from './OptionsTable/OptionsTable';
 export { default as OptionEditor } from './OptionEditor/OptionEditor';
 export { default as ImageCropModal } from './ImageCropModal/ImageCropModal';
+export { default as VideoEditorModal } from './VideoEditorModal/VideoEditorModal';

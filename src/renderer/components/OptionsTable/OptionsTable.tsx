@@ -119,7 +119,6 @@ const OptionsTable: React.FC<OptionsTableProps> = ({ buttons, maxOptions = 6 }) 
                   <OptionEditor
                     button={button}
                     closeOpenEditor={() => setEditingIndex(null)}
-                    onOpenVideoEditor={() => { }}
                   />
                 </td>
               </tr>

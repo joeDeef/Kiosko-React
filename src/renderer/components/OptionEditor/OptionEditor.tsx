@@ -2,19 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAssetPath } from '../../hooks';
 import { ButtonData } from '../../../shared/types';
 import { useAdminPanel } from '../../../shared/context/AdminPanelContext';
-import { ImageCropModal } from '../index';
+import { ImageCropModal, VideoEditorModal } from '../index';
 import './OptionEditor.css';
 
 interface OptionEditorProps {
   button: ButtonData;
   closeOpenEditor: () => void;
-  onOpenVideoEditor?: () => void;
 }
 
 const OptionEditor: React.FC<OptionEditorProps> = ({
   button,
-  closeOpenEditor,
-  onOpenVideoEditor
+  closeOpenEditor
 }) => {
   const [editedButton, setEditedButton] = useState<ButtonData>({ ...button });
   const [previewImage, setPreviewImage] = useState<string>('');
@@ -23,6 +21,7 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
   const { updateData, addImageToDelete, removeImageToDelete } = useAdminPanel();
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [tempFile, setTempFile] = useState<File | null>(null);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
 
   useEffect(() => {
     const initialImage = button.temporalImage || button.icon || '';
@@ -104,6 +103,10 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
     closeOpenEditor();
   };
 
+  const onOpenVideoEditor = async () => {
+    setVideoModalOpen(true);
+  }
+
   const getCurrentImageSrc = () => {
     if (editedButton.temporalImage) {
       return temp(editedButton.temporalImage);
@@ -114,6 +117,16 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
     return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"%3E%3Cpath d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/%3E%3C/svg%3E';
   };
 
+  const handleSaveVideos = (newVideos: string[], videosToDelete: string[]) => {
+    setEditedButton(prev => ({
+      ...prev,
+      videos: newVideos
+    }));
+    // aquí puedes guardar en tu backend los videos a eliminar
+    console.log("Videos eliminados:", videosToDelete);
+    setVideoModalOpen(false);
+  };
+  
   return (
     <div className="option-details show">
       <h2>
@@ -198,6 +211,14 @@ const OptionEditor: React.FC<OptionEditorProps> = ({
           imageSrc={URL.createObjectURL(tempFile)}
           onClose={() => setCropModalOpen(false)}
           onCrop={handleCropComplete}
+        />
+      )}
+
+      {videoModalOpen && (
+        <VideoEditorModal
+          videos={editedButton.videos || []}
+          onClose={() => setVideoModalOpen(false)}
+          onSave={handleSaveVideos}
         />
       )}
 

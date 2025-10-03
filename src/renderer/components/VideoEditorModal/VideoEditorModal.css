@@ -1,0 +1,697 @@
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    max-width: 90vw;
+    width: 1200px;
+    max-height: 95vh;
+    overflow: auto;
+    border-radius: 20px;
+    background: #1a1a1a;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Main App Container - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .app-container {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    gap: 24px !important;
+    /* Anular cualquier estilo externo */
+    grid: none !important;
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+}
+
+/* Header - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .header {
+    backdrop-filter: blur(20px) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    padding: 20px 24px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.video-editor-modal .header-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    grid: none !important;
+    grid-template-columns: none !important;
+}
+
+.video-editor-modal .video-counter {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+    min-width: 80px !important;
+}
+
+.video-editor-modal .counter-number {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #007AFF !important;
+    line-height: 1 !important;
+}
+
+.video-editor-modal .counter-label {
+    font-size: 0.875rem !important;
+    color: rgba(29, 29, 31, 0.6) !important;
+    font-weight: 500 !important;
+}
+
+.video-editor-modal .page-title {
+    font-size: 2.5rem !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    text-align: center !important;
+    flex: 1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.video-editor-modal .btn-add {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    border-radius: 12px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3) !important;
+    min-width: 160px !important;
+    justify-content: center !important;
+}
+
+.video-editor-modal .btn-add:active {
+    transform: translateY(1px) !important;
+    transition: transform 0.1s !important;
+}
+
+/* Main Content - ANULAR ESTILOS DE GRID DEL LOGOSECTION */
+.video-editor-modal .main-content {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    width: 100% !important;
+    /* Anular estilos de grid que vienen de LogoSection */
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+    grid: none !important;
+    grid-gap: unset !important;
+    align-items: stretch !important;
+}
+
+/* Asegurar que las secciones estén en layout vertical */
+.video-editor-modal .video-player-section,
+.video-editor-modal .video-library-section {
+    width: 100% !important;
+    display: block !important;
+    flex: none !important;
+    grid-column: unset !important;
+    grid-row: unset !important;
+}
+
+.video-editor-modal .video-player-section {
+    order: 1 !important;
+}
+
+.video-editor-modal .video-library-section {
+    order: 2 !important;
+}
+
+/* Video Player Section - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .video-player-section {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    padding: 24px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    width: 100% !important;
+    display: block !important;
+    flex: none !important;
+    grid-column: unset !important;
+    grid-row: unset !important;
+    order: 1 !important;
+}
+
+.video-editor-modal .video-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.video-editor-modal .video-container {
+    position: relative !important;
+    width: 100% !important;
+    aspect-ratio: 16/9 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    background: #000000 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+.video-editor-modal #video-player {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    background: #000000 !important;
+}
+
+.video-editor-modal .video-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    backdrop-filter: blur(10px) !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.video-editor-modal .video-overlay.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.video-editor-modal .overlay-content {
+    text-align: center !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.video-editor-modal .overlay-content svg {
+    margin-bottom: 16px !important;
+    opacity: 0.4 !important;
+}
+
+.video-editor-modal .overlay-content p {
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+}
+
+.video-editor-modal .video-controls {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 10 !important;
+}
+
+.video-editor-modal .btn-control {
+    background: rgba(255, 59, 48, 0.9) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 16px !important;
+    border-radius: 10px !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3) !important;
+    min-width: 120px !important;
+    justify-content: center !important;
+}
+
+.video-editor-modal .btn-control:disabled {
+    opacity: 0.4 !important;
+}
+
+.video-editor-modal .btn-control svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+/* Video Library Section - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .video-library-section {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    padding: 24px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    width: 100% !important;
+    display: block !important;
+    flex: none !important;
+    grid-column: unset !important;
+    grid-row: unset !important;
+    order: 2 !important;
+}
+
+.video-editor-modal .library-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+}
+
+.video-editor-modal .library-header h2 {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    letter-spacing: -0.01em !important;
+}
+
+.video-editor-modal .carousel-navigation {
+    display: flex !important;
+    gap: 8px !important;
+}
+
+.video-editor-modal .nav-btn {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    color: rgba(29, 29, 31, 0.6) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.video-editor-modal .nav-btn:disabled {
+    opacity: 0.3 !important;
+}
+
+/* Carousel - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .carousel-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+}
+
+.video-editor-modal .carousel-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.video-editor-modal .carousel-container::-webkit-scrollbar {
+    display: none !important;
+}
+
+.video-editor-modal .carousel-track {
+    display: flex !important;
+    gap: 16px !important;
+    padding: 8px 0 !important;
+    min-height: 140px !important;
+}
+
+.video-editor-modal .video-thumbnail {
+    flex: 0 0 200px !important;
+    height: 120px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 2px solid transparent !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    position: relative !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.video-editor-modal .video-thumbnail.active {
+    border-color: #007AFF !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3) !important;
+}
+
+.video-editor-modal .video-thumbnail img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    background: #333333 !important;
+}
+
+.video-editor-modal .play-icon {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff !important;
+    font-size: 14px !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.2s ease !important;
+}
+
+.video-editor-modal .temporal-indicator {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    background: linear-gradient(135deg, #FF9500 0%, #FF6B35 100%) !important;
+    color: white !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3) !important;
+}
+
+/* Empty State - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .empty-state {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 60px 20px !important;
+    text-align: center !important;
+    color: rgba(29, 29, 31, 0.4) !important;
+    min-height: 200px !important;
+}
+
+.video-editor-modal .empty-state svg {
+    margin-bottom: 20px !important;
+    opacity: 0.3 !important;
+}
+
+.video-editor-modal .empty-state h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    color: rgba(29, 29, 31, 0.6) !important;
+}
+
+.video-editor-modal .empty-state p {
+    font-size: 0.95rem !important;
+    color: rgba(29, 29, 31, 0.4) !important;
+}
+
+.video-editor-modal .empty-state.hidden {
+    display: none !important;
+}
+
+/* Footer Actions - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+.video-editor-modal .footer-actions {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    padding: 20px 24px !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.video-editor-modal .btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 12px 24px !important;
+    border-radius: 12px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid !important;
+    min-width: 160px !important;
+    justify-content: center !important;
+}
+
+.video-editor-modal .btn-secondary {
+    background: rgba(142, 142, 147, 0.1) !important;
+    color: #8E8E93 !important;
+    border-color: rgba(142, 142, 147, 0.2) !important;
+}
+
+.video-editor-modal .btn-primary {
+    background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3) !important;
+}
+
+.video-editor-modal .btn-primary:disabled {
+    background: rgba(142, 142, 147, 0.1) !important;
+    color: rgba(142, 142, 147, 0.5) !important;
+    border-color: rgba(142, 142, 147, 0.1) !important;
+    box-shadow: none !important;
+}
+
+.video-editor-modal .btn:active {
+    transform: translateY(1px) !important;
+    transition: transform 0.1s !important;
+}
+
+/* Responsive Design - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+@media (max-width: 1024px) {
+    .video-editor-modal .app-container {
+        padding: 16px !important;
+        gap: 20px !important;
+    }
+
+    .video-editor-modal .page-title {
+        font-size: 2rem !important;
+    }
+
+    .video-editor-modal .video-thumbnail {
+        flex: 0 0 180px !important;
+        height: 108px !important;
+    }
+
+    .video-editor-modal .video-controls {
+        top: 12px !important;
+        right: 12px !important;
+    }
+
+    .video-editor-modal .btn-control {
+        padding: 10px 14px !important;
+        font-size: 0.8rem !important;
+        min-width: 100px !important;
+    }
+
+    .video-editor-modal .btn-control svg {
+        width: 14px !important;
+        height: 14px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-editor-modal .app-container {
+        padding: 12px !important;
+        gap: 16px !important;
+    }
+
+    .video-editor-modal .header-content {
+        flex-direction: column !important;
+        gap: 16px !important;
+        text-align: center !important;
+    }
+
+    .video-editor-modal .page-title {
+        font-size: 1.75rem !important;
+        order: -1 !important;
+    }
+
+    .video-editor-modal .video-counter {
+        order: 1 !important;
+    }
+
+    .video-editor-modal .btn-add {
+        order: 2 !important;
+        width: 100% !important;
+        max-width: 280px !important;
+    }
+
+    .video-editor-modal .library-header {
+        flex-direction: column !important;
+        gap: 16px !important;
+        align-items: flex-start !important;
+    }
+
+    .video-editor-modal .library-header h2 {
+        font-size: 1.25rem !important;
+    }
+
+    .video-editor-modal .video-thumbnail {
+        flex: 0 0 160px !important;
+        height: 96px !important;
+    }
+
+    .video-editor-modal .btn-control {
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        min-width: 90px !important;
+        gap: 6px !important;
+    }
+
+    .video-editor-modal .btn-control svg {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    .video-editor-modal .footer-actions {
+        flex-direction: row !important;
+        gap: 8px !important;
+        justify-content: center !important;
+    }
+
+    .video-editor-modal .btn {
+        width: auto !important;
+        min-width: 120px !important;
+        flex: 1 !important;
+        max-width: 160px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-editor-modal .app-container {
+        padding: 8px !important;
+        gap: 12px !important;
+    }
+
+    .video-editor-modal .header {
+        padding: 16px 20px !important;
+    }
+
+    .video-editor-modal .video-player-section,
+    .video-editor-modal .video-library-section {
+        padding: 20px !important;
+    }
+
+    .video-editor-modal .page-title {
+        font-size: 1.5rem !important;
+    }
+
+    .video-editor-modal .counter-number {
+        font-size: 1.75rem !important;
+    }
+
+    .video-editor-modal .video-thumbnail {
+        flex: 0 0 140px !important;
+        height: 84px !important;
+    }
+
+    .video-editor-modal .btn-add span {
+        display: none !important;
+    }
+
+    .video-editor-modal .btn-add {
+        min-width: 50px !important;
+        padding: 12px !important;
+    }
+
+    .video-editor-modal .video-controls {
+        top: 8px !important;
+        right: 8px !important;
+    }
+
+    .video-editor-modal .btn-control {
+        padding: 6px 8px !important;
+        font-size: 0.7rem !important;
+        min-width: 70px !important;
+        gap: 4px !important;
+    }
+
+    .video-editor-modal .btn-control svg {
+        width: 10px !important;
+        height: 10px !important;
+    }
+}
+
+/* High contrast mode - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+@media (prefers-contrast: high) {
+    .video-editor-modal {
+        background: #f8f8f8 !important;
+    }
+
+    .video-editor-modal .app-container {
+        border: 2px solid #000000 !important;
+    }
+
+    .video-editor-modal .header,
+    .video-editor-modal .video-player-section,
+    .video-editor-modal .video-library-section,
+    .video-editor-modal .footer-actions {
+        border: 2px solid #000000 !important;
+        background: #ffffff !important;
+    }
+
+    .video-editor-modal .page-title,
+    .video-editor-modal .library-header h2 {
+        color: #000000 !important;
+    }
+}
+
+/* Reduced motion - EXCLUSIVO PARA VIDEO EDITOR MODAL */
+@media (prefers-reduced-motion: reduce) {
+    .video-editor-modal *,
+    .video-editor-modal *::before,
+    .video-editor-modal *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Dark mode support (already default) */
+@media (prefers-color-scheme: light) {
+    /* Keep dark theme as default for professional look */
+}
