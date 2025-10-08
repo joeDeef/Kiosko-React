@@ -1,11 +1,18 @@
-import { useAssets } from './useAssets';
-
 export const useAssetPath = () => {
-  const { getAssetPath, getTemporalPath } = useAssets();
 
-  const img = (filename: string) => getAssetPath('img', filename);
-  const video = (filename: string) => getAssetPath('videos', filename);
-  const temp = (filename: string) => getTemporalPath(filename);
+  const img = (filename: string) => {
+    return `app-assets:///img/${filename}`;
+  };
+  const video = (filename: string) => {
+    return `http://localhost:3001/videos/${encodeURIComponent(filename)}`
+  };
+  const temp = (filename: string) => {
+    return `app-temp:///${filename}`;
 
-  return { img, video, temp };
+  };
+  const tempVideo = (filename: string) => {
+    return `http://localhost:3001/temp/${encodeURIComponent(filename)}`
+  }
+
+  return { img, video, temp, tempVideo };
 };

@@ -1,9 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { AssetManager, WindowManager } from '../shared/utils';
 import started from 'electron-squirrel-startup';
 import path from "node:path";
 import fs from "fs";
-
+import { startMiniServer } from './miniServer';
 // Manejo de shortcuts en Windows
 if (started) app.quit();
 
@@ -23,37 +23,37 @@ const userDataPath = app.getPath('userData');
 
 async function initializeApplication(): Promise<void> {
   try {
-    // 1️ Inicializar AssetManager
+    const miniServerPort = startMiniServer();
+
+    // 1️⃣ Inicializar AssetManager TEMPRANO
     assetManager = new AssetManager(isDev, userDataPath);
 
-    // 2️ Copiar assets y data al userData
-    await assetManager.copyAllToUserData();
-
-    // 3️ Registrar protocolo para app-assets (img/videos)
+    // 2️⃣ Registrar protocolos ANTES de cualquier otra cosa
     assetManager.registerAssetsProtocol();
 
-    // 4 Validar licencia
+    // 3️⃣ Copiar assets y data al userData
+    await assetManager.copyAllToUserData();
+
+    // 4️⃣ Validar licencia
     const licenseValid = isLicenseValid();
     lastLicenseValid = licenseValid;
 
-    // 5 Crear ventana principal
+    // 5️⃣ Crear ventana principal
     windowManager = new WindowManager();
     const mainWindow = windowManager.createMainWindow();
-// Handler IPC para consultar el estado de la licencia desde el renderer
-ipcMain.handle("get-license-status", async () => {
-  return lastLicenseValid;
-});
   } catch (error: unknown) {
     console.error("Error inicializando aplicación:", error);
     app.quit();
   }
 }
 
-/**
- * Ciclo de vida de la aplicación
- */
-app.whenReady().then(() => {
-  initializeApplication();
+// =====================================
+// HANDLERS IPC - Registrados al cargar el módulo
+// =====================================
+
+// Handler IPC para consultar el estado de la licencia desde el renderer
+ipcMain.handle("get-license-status", async () => {
+  return lastLicenseValid;
 });
 
 ipcMain.handle("load-data", async () => {
@@ -83,6 +83,35 @@ ipcMain.handle("save-temp-image", async (_event, buffer: ArrayBuffer, ext: strin
   }
 });
 
+ipcMain.handle("open-file-dialog", async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ["openFile"],
+    filters: [{ name: "Videos", extensions: ["mp4", "mov", "avi", "mkv", "webm"] }],
+  });
+  return result.canceled ? [] : result.filePaths;
+});
+
+ipcMain.handle("save-temp-video", async (_event, originalPath: string, ext: string, preNombre: string) => {
+  try {
+    const tempDir = path.join(app.getPath("userData"), "temp");
+    if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
+
+    const safeExt = ext.replace(/[^a-zA-Z0-9]/g, "");
+    const fileName = `${preNombre}_${Date.now()}.${safeExt}`;
+    const filePath = path.join(tempDir, fileName);
+
+    // ✅ Copiar archivo directamente
+    await fs.promises.copyFile(originalPath, filePath);
+
+    console.log("✅ Video copiado en:", filePath);
+    return fileName; // solo nombre
+  } catch (err) {
+    console.error("❌ Error guardando video temporal:", err);
+    return null;
+  }
+});
+
+
 ipcMain.handle("remove-temp-file", async (_event, fileName: string) => {
   try {
     const tempDir = path.join(app.getPath("userData"), "temp");
@@ -101,6 +130,13 @@ ipcMain.handle("remove-temp-file", async (_event, fileName: string) => {
     console.error("Error eliminando archivo temporal:", err);
     return false;
   }
+});
+
+/**
+ * Ciclo de vida de la aplicación
+ */
+app.whenReady().then(() => {
+  initializeApplication();
 });
 
 app.on('window-all-closed', () => {

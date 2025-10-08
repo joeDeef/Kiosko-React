@@ -32,7 +32,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
     }
 
     const buffer = await file.arrayBuffer();              // Leer el buffer del archivo
-    const ext = file.name.split('.').pop() || 'png';      // Obtener la extensión
+    const ext = file.name.split('.').pop();      // Obtener la extensión
     // Guardar en temp y obtener el nombre
     const savedFileName = await window.electronAPI.saveTempImage(buffer, ext, 'logo');
     if (!savedFileName) {
